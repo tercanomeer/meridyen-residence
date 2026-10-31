@@ -54,6 +54,12 @@ svg {
   box-shadow: var(--focus-ring);
 }
 
+/* Programla odaklanan başlıklar (ekran ve form başlıkları) tıklanabilir değildir; halka gösterme. */
+[tabindex='-1']:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 /* Açılışta boş metin görünmesin. */
 body:not([data-ready]) main {
   opacity: 0;
@@ -61,6 +67,23 @@ body:not([data-ready]) main {
 
 main {
   transition: opacity 0.4s var(--ease-calm);
+}
+
+/* Ekran geçişi: giden ekran yerinde sabitlenir, yeni ekran altında/üstünde belirir. */
+main {
+  position: relative;
+  overflow: clip;
+}
+
+.screen {
+  position: relative;
+}
+
+.screen--leaving {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

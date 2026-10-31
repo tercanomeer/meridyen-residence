@@ -9,7 +9,7 @@ import { createVisual } from '../ui/visual-slot.js';
 import { createHotspotLayer } from '../ui/hotspot-layer.js';
 import { createHoverCard, relativeBox } from '../ui/hover-card.js';
 import { floorCard, floorDescription } from '../ui/card-content.js';
-import { observeSize } from '../ui/observe-size.js';
+import { observeSize, layoutSize } from '../ui/observe-size.js';
 import { summarizeFloors, typicalPlate, terraceFloors } from '../model/floors.js';
 import { revealScene } from '../motion.js';
 
@@ -95,17 +95,17 @@ export function renderTower(container, { project, units, focusFloor = null }) {
   }
 
   function build() {
-    const box = stage.getBoundingClientRect();
+    const box = layoutSize(stage);
     if (!box.width || !box.height) return;
     const narrow = box.width < NARROW;
     const previous = layer ? layer.activeId : focusFloor;
 
     scene = createVisual(project.tower.visual, {
       ...sceneOptions,
-      width: Math.round(box.width),
-      height: Math.round(box.height),
+      width: box.width,
+      height: box.height,
       focusX: narrow ? 0.3 : 0.46,
-      topInset: narrow ? hud.getBoundingClientRect().bottom - box.top + 20 : 64,
+      topInset: narrow ? hud.offsetTop + hud.offsetHeight + 20 : 64,
       label: t('tower.sceneLabel', { name: localize(project.name), floors: project.tower.floors }),
     });
     sceneHost.replaceChildren(scene.element);
@@ -149,6 +149,7 @@ export function renderTower(container, { project, units, focusFloor = null }) {
 
   const onKeydown = (event) => {
     if (event.key === 'Escape' && card.isOpen) {
+      event.preventDefault();
       layer?.setActive(null);
       card.hide();
     }

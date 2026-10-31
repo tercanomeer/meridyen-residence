@@ -5,7 +5,7 @@
   grid-template-rows: auto minmax(52vh, 1fr) auto;
   min-height: 100vh;
   min-height: 100dvh;
-  padding-top: calc(max(12px, env(safe-area-inset-top)) + 52px);
+  padding-top: calc(max(12px, env(safe-area-inset-top)) + 60px);
 }
 
 .floor__head {

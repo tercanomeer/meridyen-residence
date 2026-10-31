@@ -65,5 +65,30 @@
     "backToPlan": "Back to plan",
     "enter": "Step inside",
     "sceneLabel": "{room}, interior view"
+  },
+  "lead": {
+    "title": "Book a viewing",
+    "intro": "Leave your details and our advisor will call you to arrange a time.",
+    "fields": {
+      "name": "Full name",
+      "phone": "Phone",
+      "email": "Email",
+      "unit": "Residence of interest",
+      "date": "Preferred day"
+    },
+    "submit": "Request a viewing",
+    "sending": "Sending…",
+    "close": "Close",
+    "doneTitle": "Request received",
+    "doneText": "Our advisor will be in touch with you shortly.",
+    "errors": {
+      "required": "This field is required.",
+      "name": "Please enter your full name.",
+      "phone": "Enter a valid phone number (10–15 digits).",
+      "email": "Enter a valid email address.",
+      "date": "Choose a day within the next 60 days, starting tomorrow.",
+      "summary": "Please correct the highlighted fields.",
+      "submit": "Your request could not be sent. Please try again."
+    }
   }
 }

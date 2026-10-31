@@ -1,13 +1,16 @@
-// Öğenin boyutu gerçekten değişince (gecikmeli) geri çağırır. Bağlantıyı kesen fonksiyon döndürür.
+// Öğenin yerleşim boyutu (CSS dönüşümlerinden etkilenmez; geçiş animasyonu sırasında da doğru ölçer).
+export function layoutSize(element) {
+  return { width: element.clientWidth, height: element.clientHeight };
+}
 
+// Öğenin boyutu gerçekten değişince (gecikmeli) geri çağırır. Bağlantıyı kesen fonksiyon döndürür.
 export function observeSize(element, callback, delay = 150) {
-  let last = '';
   let timer = 0;
   const read = () => {
-    const { width, height } = element.getBoundingClientRect();
-    return `${Math.round(width)}x${Math.round(height)}`;
+    const { width, height } = layoutSize(element);
+    return `${width}x${height}`;
   };
-  last = read();
+  let last = read();
 
   const observer = new ResizeObserver(() => {
     window.clearTimeout(timer);

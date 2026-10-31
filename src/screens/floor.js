@@ -3,13 +3,13 @@
 import { t, localize } from '../i18n.js';
 import { formatPrice } from '../currency.js';
 import { subscribe } from '../state.js';
-import { navigate } from '../router.js';
+import { navigate, goBack } from '../router.js';
 import { applyBindings } from '../ui/bindings.js';
 import { createVisual } from '../ui/visual-slot.js';
 import { createHotspotLayer } from '../ui/hotspot-layer.js';
 import { createHoverCard, relativeBox } from '../ui/hover-card.js';
 import { unitCard, unitDescription } from '../ui/card-content.js';
-import { observeSize } from '../ui/observe-size.js';
+import { observeSize, layoutSize } from '../ui/observe-size.js';
 import { layoutForFloor, locateUnit, placeRect } from '../model/layout.js';
 import { unitsOnFloor } from '../model/units.js';
 
@@ -20,7 +20,7 @@ export function renderFloor(container, { project, units, floor, focusUnit = null
   const layout = layoutForFloor(project, floor);
   const floorUnits = unitsOnFloor(units, floor);
   if (!layout || floorUnits.length === 0) {
-    queueMicrotask(() => navigate({}));
+    queueMicrotask(() => navigate({}, { replace: true }));
     return () => {};
   }
   const typeOf = (unit) => project.unitTypes[unit.type];
@@ -134,7 +134,7 @@ export function renderFloor(container, { project, units, floor, focusUnit = null
   }
 
   function build() {
-    const box = stage.getBoundingClientRect();
+    const box = layoutSize(stage);
     if (!box.width || !box.height) return;
     const previous = layer?.activeId ?? null;
     const hadFocus = hotspotHost.contains(document.activeElement);
@@ -179,12 +179,7 @@ export function renderFloor(container, { project, units, floor, focusUnit = null
     const row = event.target.closest('.unit-row');
     if (row) enterUnit(row.dataset.id);
   });
-  root.querySelector('.back-link').addEventListener('click', () => navigate({}));
-
-  const onKeydown = (event) => {
-    if (event.key === 'Escape') navigate({});
-  };
-  document.addEventListener('keydown', onKeydown);
+  root.querySelector('.back-link').addEventListener('click', goBack);
 
   const unsubscribe = subscribe((state, changed) => {
     if (!changed.includes('lang') && !changed.includes('currency')) return;
@@ -205,6 +200,5 @@ export function renderFloor(container, { project, units, floor, focusUnit = null
   return () => {
     unsubscribe();
     stopObserving();
-    document.removeEventListener('keydown', onKeydown);
   };
 }

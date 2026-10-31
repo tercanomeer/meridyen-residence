@@ -9,6 +9,7 @@ import { loadUnits } from './data/load-units.js';
 import { applyBindings } from './ui/bindings.js';
 import { mountToggles } from './ui/toggles.js';
 import { mountScreens } from './screens/manager.js';
+import { mountLeadForm } from './screens/lead-form.js';
 
 async function boot() {
   const projectId = document.body.dataset.project;
@@ -27,6 +28,7 @@ async function boot() {
   syncToggles(getState());
   document.body.dataset.ready = 'true';
   mountScreens(document.querySelector('[data-slot="screen"]'), { project, units });
+  mountLeadForm({ project, units });
 
   subscribe((state, changed) => {
     if (changed.includes('lang') || changed.includes('currency')) refresh();

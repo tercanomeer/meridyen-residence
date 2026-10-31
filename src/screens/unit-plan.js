@@ -2,14 +2,14 @@
 
 import { t, localize } from '../i18n.js';
 import { getState, setState, subscribe } from '../state.js';
-import { navigate } from '../router.js';
+import { navigate, goBack } from '../router.js';
 import { applyBindings } from '../ui/bindings.js';
 import { createVisual } from '../ui/visual-slot.js';
 import { createHotspotLayer } from '../ui/hotspot-layer.js';
 import { createRoomTag } from '../ui/room-tag.js';
 import { relativeBox } from '../ui/hover-card.js';
 import { createPanel } from '../ui/panel.js';
-import { observeSize } from '../ui/observe-size.js';
+import { observeSize, layoutSize } from '../ui/observe-size.js';
 import { locateUnit, placedFacades, placedFootprint, placedRooms } from '../model/layout.js';
 
 const areaOf = ([, , w, h]) => Math.round(w * h);
@@ -18,7 +18,7 @@ export function renderUnitPlan(container, { project, units, floor, unitId, focus
   const unit = units.find((entry) => entry.id === unitId && entry.floor === floor);
   const located = unit && locateUnit(project, unit);
   if (!located) {
-    queueMicrotask(() => navigate({ floor }));
+    queueMicrotask(() => navigate({ floor }, { replace: true }));
     return () => {};
   }
   const { placement, type } = located;
@@ -43,7 +43,7 @@ export function renderUnitPlan(container, { project, units, floor, unitId, focus
   const tag = createRoomTag({ onAction: enterRoom });
   stage.append(tag.element);
 
-  const backToFloor = () => navigate({ floor });
+  const backToFloor = goBack;
   const panel = createPanel({
     project,
     units,
@@ -86,7 +86,7 @@ export function renderUnitPlan(container, { project, units, floor, unitId, focus
   }
 
   function build() {
-    const box = stage.getBoundingClientRect();
+    const box = layoutSize(sceneHost);
     if (!box.width || !box.height) return;
     const previous = layer ? layer.activeId : focusRoom;
     const hadFocus = hotspotHost.contains(document.activeElement);
@@ -125,10 +125,11 @@ export function renderUnitPlan(container, { project, units, floor, unitId, focus
 
   root.querySelector('.unit__back').addEventListener('click', backToFloor);
 
+  // Esc önce açık alt kartı kapatır; kapalıysa yönlendirici kata döner.
   const onKeydown = (event) => {
-    if (event.key !== 'Escape') return;
-    if (panel.isOpen && panel.element.classList.contains('is-sheet')) panel.close();
-    else backToFloor();
+    if (event.key !== 'Escape' || !panel.isOpen || !panel.element.classList.contains('is-sheet')) return;
+    event.preventDefault();
+    panel.close();
   };
   document.addEventListener('keydown', onKeydown);
 
@@ -148,7 +149,7 @@ export function renderUnitPlan(container, { project, units, floor, unitId, focus
     setState({ similarFor: null });
   }
   build();
-  const stopObserving = observeSize(stage, build);
+  const stopObserving = observeSize(sceneHost, build);
 
   return () => {
     unsubscribe();

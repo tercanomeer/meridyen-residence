@@ -65,5 +65,30 @@
     "backToPlan": "Plana dön",
     "enter": "İçeri gir",
     "sceneLabel": "{room}, iç mekân görünümü"
+  },
+  "lead": {
+    "title": "Randevu talebi",
+    "intro": "Bilgilerinizi bırakın, danışmanımız sizi arayarak görüşme saatini netleştirsin.",
+    "fields": {
+      "name": "Ad soyad",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "unit": "İlgilendiğiniz daire",
+      "date": "Tercih ettiğiniz gün"
+    },
+    "submit": "Randevu iste",
+    "sending": "Gönderiliyor…",
+    "close": "Kapat",
+    "doneTitle": "Talebiniz alındı",
+    "doneText": "Danışmanımız en kısa sürede sizinle iletişime geçecek.",
+    "errors": {
+      "required": "Bu alan zorunlu.",
+      "name": "Lütfen adınızı ve soyadınızı yazın.",
+      "phone": "Geçerli bir telefon numarası yazın (10–15 rakam).",
+      "email": "Geçerli bir e-posta adresi yazın.",
+      "date": "Yarından itibaren 60 gün içinde bir gün seçin.",
+      "summary": "Lütfen işaretli alanları düzeltin.",
+      "submit": "Talebiniz gönderilemedi. Lütfen tekrar deneyin."
+    }
   }
 }

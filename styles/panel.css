@@ -206,8 +206,10 @@
 .panel.is-sheet .panel__handle {
   display: grid;
   justify-items: center;
+  align-content: center;
   gap: 4px;
   width: 100%;
+  min-height: 44px;
   padding: 10px 0 6px;
   border: 0;
   background: none;

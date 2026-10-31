@@ -3,9 +3,9 @@
 
 import { t, localize } from '../i18n.js';
 import { getState, setState, subscribe } from '../state.js';
-import { navigate } from '../router.js';
+import { navigate, goBack } from '../router.js';
 import { createVisual } from '../ui/visual-slot.js';
-import { observeSize } from '../ui/observe-size.js';
+import { observeSize, layoutSize } from '../ui/observe-size.js';
 import { locateUnit, placedFacades, placedRooms, roomWindows } from '../model/layout.js';
 import { slowZoom, crossfade } from '../motion.js';
 
@@ -20,7 +20,7 @@ export function renderRoom(container, { project, units, floor, unitId }) {
   const rank = (room) => KIND_ORDER.indexOf(room.kind) * 2 + (room.id.startsWith('ebeveyn') ? 0 : 1);
   const rooms = allRooms.filter((room) => room.visual).sort((a, b) => rank(a) - rank(b));
   if (!located || !rooms.some((room) => room.id === getState().room)) {
-    queueMicrotask(() => navigate(located ? { floor, unit: unitId } : { floor }));
+    queueMicrotask(() => navigate(located ? { floor, unit: unitId } : { floor }, { replace: true }));
     return () => {};
   }
   const { placement, type } = located;
@@ -68,7 +68,7 @@ export function renderRoom(container, { project, units, floor, unitId }) {
 
   function showRoom(roomId, { fade = true } = {}) {
     const room = rooms.find((entry) => entry.id === roomId);
-    const box = stage.getBoundingClientRect();
+    const box = layoutSize(stage);
     if (!room || !box.width || !box.height) return;
 
     const visual = createVisual(room.visual, {
@@ -106,7 +106,7 @@ export function renderRoom(container, { project, units, floor, unitId }) {
         button.className = 'room-tab';
         button.textContent = localize(entry.label);
         if (entry.id === room?.id) button.setAttribute('aria-current', 'page');
-        button.addEventListener('click', () => navigate({ ...planRoute, room: entry.id }));
+        button.addEventListener('click', () => navigate({ ...planRoute, room: entry.id }, { replace: true }));
         item.append(button);
         return item;
       }),
@@ -117,22 +117,21 @@ export function renderRoom(container, { project, units, floor, unitId }) {
   function step(offset) {
     const index = rooms.findIndex((entry) => entry.id === getState().room);
     const next = rooms[(index + offset + rooms.length) % rooms.length];
-    navigate({ ...planRoute, room: next.id });
+    navigate({ ...planRoute, room: next.id }, { replace: true });
   }
 
-  root.querySelector('[data-action="plan"]').addEventListener('click', () => navigate(planRoute));
+  root.querySelector('[data-action="plan"]').addEventListener('click', goBack);
   root.querySelector('[data-action="primary"]').addEventListener('click', () => {
     if (!sold) {
       setState({ leadUnit: unit.id });
       return;
     }
     setState({ similarFor: unit.id });
-    navigate(planRoute);
+    goBack();
   });
 
   const onKeydown = (event) => {
-    if (event.key === 'Escape') navigate(planRoute);
-    else if (event.key === 'ArrowRight') step(1);
+    if (event.key === 'ArrowRight') step(1);
     else if (event.key === 'ArrowLeft') step(-1);
   };
   document.addEventListener('keydown', onKeydown);

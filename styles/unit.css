@@ -14,7 +14,7 @@
 
 .unit__back {
   position: absolute;
-  top: calc(max(12px, env(safe-area-inset-top)) + 52px);
+  top: calc(max(12px, env(safe-area-inset-top)) + 60px);
   left: var(--gutter);
   z-index: 5;
 }
@@ -22,7 +22,7 @@
 .unit__scene,
 .unit__hotspots {
   position: absolute;
-  inset: calc(max(12px, env(safe-area-inset-top)) + 100px) 0 var(--sheet-peek, 0px);
+  inset: calc(max(12px, env(safe-area-inset-top)) + 112px) 0 var(--sheet-peek, 0px);
 }
 
 .unit__scene > svg,
@@ -71,7 +71,7 @@
 }
 
 .room-tag__action {
-  min-height: 32px;
+  min-height: 44px;
   margin-top: 6px;
   padding: 0 14px;
   border: 0;

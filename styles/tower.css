@@ -32,7 +32,7 @@
 
 .tower__hud {
   position: absolute;
-  top: calc(max(12px, env(safe-area-inset-top)) + 52px);
+  top: calc(max(12px, env(safe-area-inset-top)) + 60px);
   left: var(--gutter);
   z-index: 5;
   display: grid;
