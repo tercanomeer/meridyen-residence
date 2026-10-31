@@ -25,6 +25,18 @@
   "tower": {
     "floors": 32,
     "visual": "svg:tower",
+    "render": {
+      "src": "renders/tower.webp",
+      "small": "renders/tower-small.webp",
+      "size": [1610, 2400],
+      "floors": [
+        { "floor": 1, "edge": "bottom", "left": [0.364, 0.7654], "right": [0.6373, 0.7654] },
+        { "floor": 2, "edge": "top", "left": [0.364, 0.7217], "right": [0.6373, 0.7217] },
+        { "floor": 29, "edge": "top", "left": [0.364, 0.1792], "right": [0.6373, 0.1792] },
+        { "floor": 30, "edge": "bottom", "left": [0.364, 0.1792], "right": [0.6373, 0.1792] },
+        { "floor": 32, "edge": "top", "left": [0.364, 0.0917], "right": [0.6373, 0.0917] }
+      ]
+    },
     "amenityFloors": [
       {
         "floor": 1,
@@ -143,15 +155,15 @@
         { "tr": "Ayrı çamaşır odası", "en": "Separate laundry room" }
       ],
       "rooms": [
-        { "id": "yatak-2", "kind": "bedroom", "label": { "tr": "Yatak odası 2", "en": "Bedroom 2" }, "rect": [0, 0, 4, 5], "visual": "svg:room-bedroom" },
+        { "id": "yatak-2", "kind": "bedroom", "label": { "tr": "Yatak odası 2", "en": "Bedroom 2" }, "rect": [0, 0, 4, 5], "visual": "svg:room-bedroom", "render": { "src": "renders/a2-yatak-2.webp", "small": "renders/a2-yatak-2-small.webp", "size": [2400, 1340], "focus": [0.55, 0.5] } },
         { "id": "banyo", "kind": "bath", "label": { "tr": "Banyo", "en": "Bathroom" }, "rect": [4, 0, 3, 2.5], "visual": "svg:room-bath" },
         { "id": "camasir", "kind": "utility", "label": { "tr": "Çamaşır odası", "en": "Laundry room" }, "rect": [7, 0, 3, 2.5] },
-        { "id": "mutfak", "kind": "kitchen", "label": { "tr": "Mutfak", "en": "Kitchen" }, "rect": [4, 2.5, 6, 2.5], "visual": "svg:room-kitchen" },
-        { "id": "salon", "kind": "living", "label": { "tr": "Salon", "en": "Living room" }, "rect": [0, 5, 7.5, 5.5], "visual": "svg:room-living" },
+        { "id": "mutfak", "kind": "kitchen", "label": { "tr": "Mutfak", "en": "Kitchen" }, "rect": [4, 2.5, 6, 2.5], "visual": "svg:room-kitchen", "render": { "src": "renders/a2-mutfak.webp", "small": "renders/a2-mutfak-small.webp", "size": [2400, 1340], "focus": [0.5, 0.5] } },
+        { "id": "salon", "kind": "living", "label": { "tr": "Salon", "en": "Living room" }, "rect": [0, 5, 7.5, 5.5], "visual": "svg:room-living", "render": { "src": "renders/a2-salon.webp", "small": "renders/a2-salon-small.webp", "size": [2400, 1340], "focus": [0.55, 0.5] } },
         { "id": "vestiyer", "kind": "storage", "label": { "tr": "Vestiyer", "en": "Cloakroom" }, "rect": [7.5, 5, 2.5, 2] },
         { "id": "antre", "kind": "entry", "label": { "tr": "Antre", "en": "Entrance hall" }, "rect": [10, 5, 4, 2] },
-        { "id": "ebeveyn", "kind": "bedroom", "label": { "tr": "Ebeveyn yatak odası", "en": "Primary bedroom" }, "rect": [7.5, 7, 4, 3.5], "visual": "svg:room-bedroom" },
-        { "id": "ebeveyn-banyo", "kind": "bath", "label": { "tr": "Ebeveyn banyosu", "en": "En-suite bathroom" }, "rect": [11.5, 7, 2.5, 3.5], "visual": "svg:room-bath" }
+        { "id": "ebeveyn", "kind": "bedroom", "label": { "tr": "Ebeveyn yatak odası", "en": "Primary bedroom" }, "rect": [7.5, 7, 4, 3.5], "visual": "svg:room-bedroom", "render": { "src": "renders/a2-ebeveyn.webp", "small": "renders/a2-ebeveyn-small.webp", "size": [2400, 1340], "focus": [0.45, 0.5] } },
+        { "id": "ebeveyn-banyo", "kind": "bath", "label": { "tr": "Ebeveyn banyosu", "en": "En-suite bathroom" }, "rect": [11.5, 7, 2.5, 3.5], "visual": "svg:room-bath", "render": { "src": "renders/a2-ebeveyn-banyo.webp", "small": "renders/a2-ebeveyn-banyo-small.webp", "size": [2400, 1340], "focus": [0.5, 0.5] } }
       ]
     },
 
@@ -303,9 +315,9 @@
         { "id": "hol", "kind": "hall", "label": { "tr": "Hol", "en": "Hallway" }, "rect": [4, 4.5, 2.5, 8] },
         { "id": "antre", "kind": "entry", "label": { "tr": "Antre", "en": "Entrance hall" }, "rect": [6.5, 4.5, 3.5, 3.5] },
         { "id": "ebeveyn-banyo", "kind": "bath", "label": { "tr": "Ebeveyn banyosu", "en": "En-suite bathroom" }, "rect": [6.5, 8, 3.5, 4.5], "visual": "svg:room-bath" },
-        { "id": "salon", "kind": "living", "label": { "tr": "Salon", "en": "Living room" }, "rect": [0, 12.5, 8, 5.5], "visual": "svg:room-living" },
+        { "id": "salon", "kind": "living", "label": { "tr": "Salon", "en": "Living room" }, "rect": [0, 12.5, 8, 5.5], "visual": "svg:room-living", "render": { "src": "renders/ph-salon.webp", "small": "renders/ph-salon-small.webp", "size": [2400, 1340], "focus": [0.6, 0.5] } },
         { "id": "ebeveyn", "kind": "bedroom", "label": { "tr": "Ebeveyn yatak odası", "en": "Primary bedroom" }, "rect": [8, 12.5, 6, 5.5], "visual": "svg:room-bedroom" },
-        { "id": "teras", "kind": "terrace", "label": { "tr": "Teras", "en": "Terrace" }, "rect": [0, 18, 14, 6], "visual": "svg:room-terrace" }
+        { "id": "teras", "kind": "terrace", "label": { "tr": "Teras", "en": "Terrace" }, "rect": [0, 18, 14, 6], "visual": "svg:room-terrace", "render": { "src": "renders/ph-teras.webp", "small": "renders/ph-teras-small.webp", "size": [2400, 1340], "focus": [0.68, 0.5] } }
       ]
     }
   },
