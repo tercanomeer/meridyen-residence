@@ -18,6 +18,14 @@
     "language": "Dil",
     "currency": "Para birimi"
   },
+  "visual": {
+    "label": "Görsel türü",
+    "drawing": "Çizim",
+    "render": "Render",
+    "drawingName": "Mimari çizim",
+    "renderName": "Fotogerçekçi görsel",
+    "illustrative": "Temsilidir"
+  },
   "tower": {
     "hint": "Bir kat seçin",
     "onlyAvailable": "Sadece müsaitler",

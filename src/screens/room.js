@@ -8,9 +8,14 @@ import { createVisual } from '../ui/visual-slot.js';
 import { observeSize, layoutSize } from '../ui/observe-size.js';
 import { locateUnit, placedFacades, placedRooms, roomWindows } from '../model/layout.js';
 import { slowZoom, crossfade } from '../motion.js';
+import { wantsRender } from '../visual-mode.js';
+import { loadRender, createRenderImage } from '../ui/render-image.js';
+import { createRenderControls } from '../ui/render-controls.js';
+import { applyBindings } from '../ui/bindings.js';
 
 const WINDOW_PRIORITY = ['south', 'west', 'east', 'north'];
 const KIND_ORDER = ['living', 'dining', 'kitchen', 'terrace', 'bedroom', 'bath'];
+const RENDER_WAIT = 250;
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 export function renderRoom(container, { project, units, floor, unitId }) {
@@ -48,7 +53,11 @@ export function renderRoom(container, { project, units, floor, unitId }) {
 
   const stage = root.querySelector('.room__stage');
   const tabs = root.querySelector('.room-tabs');
+  const controls = createRenderControls();
+  controls.element.classList.add('room__visual-mode');
+  root.querySelector('.room__shade').after(controls.element);
   let current = null;
+  let renderRequest = 0;
 
   function interiorOptions(room) {
     const windows = roomWindows(room, type, facades, allRooms);
@@ -66,27 +75,72 @@ export function renderRoom(container, { project, units, floor, unitId }) {
     };
   }
 
-  function showRoom(roomId, { fade = true } = {}) {
-    const room = rooms.find((entry) => entry.id === roomId);
-    const box = layoutSize(stage);
-    if (!room || !box.width || !box.height) return;
-
-    const visual = createVisual(room.visual, {
-      width: Math.round(box.width),
-      height: Math.round(box.height),
-      ...interiorOptions(room),
-      label: t('room.sceneLabel', { room: localize(room.label) }),
-    });
+  function mount(roomId, kind, element, focus, fade) {
     const layer = document.createElement('div');
     layer.className = 'room__layer';
-    layer.append(visual.element);
+    layer.append(element);
     stage.append(layer);
 
     const previous = current;
     previous?.stopZoom();
     if (fade) crossfade(layer, previous?.layer);
     else previous?.layer.remove();
-    current = { roomId, layer, stopZoom: slowZoom(visual.element, visual.focus ?? [box.width / 2, box.height / 2]) };
+    current = { roomId, kind, layer, stopZoom: slowZoom(element, focus) };
+    controls.setShowing(kind === 'render');
+  }
+
+  function showDrawing(room, box, fade) {
+    const visual = createVisual(room.visual, {
+      width: Math.round(box.width),
+      height: Math.round(box.height),
+      ...interiorOptions(room),
+      label: t('room.sceneLabel', { room: localize(room.label) }),
+    });
+    mount(room.id, 'drawing', visual.element, visual.focus ?? [box.width / 2, box.height / 2], fade);
+  }
+
+  // Render önbellekteyse hemen açılır. Değilse kısa bir süre beklenir; gecikirse önce çizim görünür,
+  // render yüklenince üstüne solar. Yüklenemezse çizim kalır.
+  function showRender(room, box, fade) {
+    const request = ++renderRequest;
+    const entry = loadRender(project, room.render);
+    const place = (withFade) => {
+      if (request !== renderRequest || getState().room !== room.id || !wantsRender(room.render)) return;
+      const image = createRenderImage(project, room.render, {
+        label: t('room.sceneLabel', { room: localize(room.label) }),
+        mirror: Boolean(placement.mirror),
+      });
+      mount(room.id, 'render', image.element, [box.width / 2, box.height / 2], withFade);
+    };
+    if (entry.loaded) {
+      place(fade);
+      return;
+    }
+    const timer = setTimeout(() => {
+      if (request === renderRequest && current?.roomId !== room.id) showDrawing(room, box, fade);
+    }, RENDER_WAIT);
+    entry.promise.then(
+      () => {
+        clearTimeout(timer);
+        place(fade || current?.roomId === room.id);
+      },
+      () => {
+        clearTimeout(timer);
+        if (request === renderRequest && current?.roomId !== room.id) showDrawing(room, box, fade);
+      },
+    );
+  }
+
+  function showRoom(roomId, { fade = true } = {}) {
+    const room = rooms.find((entry) => entry.id === roomId);
+    const box = layoutSize(stage);
+    if (!room || !box.width || !box.height) return;
+    controls.setAvailable(Boolean(room.render?.src));
+    if (wantsRender(room.render)) showRender(room, box, fade);
+    else {
+      renderRequest += 1;
+      showDrawing(room, box, fade);
+    }
   }
 
   function renderTexts() {
@@ -96,7 +150,10 @@ export function renderRoom(container, { project, units, floor, unitId }) {
     root.querySelector('.room__nav').setAttribute('aria-label', t('unit.roomList'));
     root.querySelector('[data-action="plan"]').textContent = t('room.backToPlan');
     root.querySelector('[data-action="primary"]').textContent = t(sold ? 'unit.similar' : 'unit.appointment');
-    current?.layer.querySelector('svg')?.setAttribute('aria-label', t('room.sceneLabel', { room: room ? localize(room.label) : '' }));
+    const sceneLabel = t('room.sceneLabel', { room: room ? localize(room.label) : '' });
+    current?.layer.querySelector('svg')?.setAttribute('aria-label', sceneLabel);
+    const image = current?.layer.querySelector('.render__img');
+    if (image) image.alt = sceneLabel;
 
     tabs.replaceChildren(
       ...rooms.map((entry) => {
@@ -140,16 +197,24 @@ export function renderRoom(container, { project, units, floor, unitId }) {
     if (changed.includes('room') && state.room !== null && state.room !== current?.roomId) {
       renderTexts();
       showRoom(state.room);
+    } else if (changed.includes('visualMode') && current) {
+      showRoom(current.roomId);
     } else if (changed.includes('lang')) {
       renderTexts();
     }
   });
 
   renderTexts();
+  applyBindings(root);
   showRoom(getState().room, { fade: false });
-  const stopObserving = observeSize(stage, () => showRoom(current.roomId, { fade: false }));
+  // Render CSS ile kutuyu kaplar; yalnızca çizim yeni boyuta göre yeniden kurulur.
+  const stopObserving = observeSize(stage, () => {
+    if (current?.kind === 'drawing') showRoom(current.roomId, { fade: false });
+  });
 
   return () => {
+    renderRequest += 1;
+    controls.destroy();
     unsubscribe();
     stopObserving();
     current?.stopZoom();

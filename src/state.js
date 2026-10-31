@@ -3,6 +3,7 @@
 const state = {
   lang: null,
   currency: null,
+  visualMode: null,
   floor: null,
   unit: null,
   room: null,

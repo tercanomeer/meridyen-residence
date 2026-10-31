@@ -18,6 +18,14 @@
     "language": "Language",
     "currency": "Currency"
   },
+  "visual": {
+    "label": "Visual style",
+    "drawing": "Drawing",
+    "render": "Render",
+    "drawingName": "Architectural drawing",
+    "renderName": "Photorealistic image",
+    "illustrative": "Illustrative"
+  },
   "tower": {
     "hint": "Select a floor",
     "onlyAvailable": "Available only",

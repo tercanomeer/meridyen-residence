@@ -38,7 +38,7 @@ export function mountToggles(container) {
   return sync;
 }
 
-function buildGroup({ stateKey, labelKey, onSelect, options }) {
+export function buildGroup({ stateKey, labelKey, onSelect, options }) {
   const element = document.createElement('div');
   element.className = 'segmented';
   element.setAttribute('role', 'group');

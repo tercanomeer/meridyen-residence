@@ -2,6 +2,8 @@
 
 import { initI18n, localize } from './i18n.js';
 import { initCurrency } from './currency.js';
+import { initVisualMode } from './visual-mode.js';
+import { loadRender } from './ui/render-image.js';
 import { getState, subscribe } from './state.js';
 import { initRouter } from './router.js';
 import { loadProject } from './data/load-project.js';
@@ -15,6 +17,8 @@ async function boot() {
   const projectId = document.body.dataset.project;
   const [project] = await Promise.all([loadProject(projectId), initI18n()]);
   initCurrency(project.currency);
+  initVisualMode();
+  if (project.tower.render && getState().visualMode === 'render') loadRender(project, project.tower.render);
   const units = await loadUnits(project);
   initRouter();
 

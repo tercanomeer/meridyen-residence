@@ -11,7 +11,11 @@ import { createHoverCard, relativeBox } from '../ui/hover-card.js';
 import { floorCard, floorDescription } from '../ui/card-content.js';
 import { observeSize, layoutSize } from '../ui/observe-size.js';
 import { summarizeFloors, typicalPlate, terraceFloors } from '../model/floors.js';
-import { revealScene } from '../motion.js';
+import { revealScene, fadeIn } from '../motion.js';
+import { wantsRender } from '../visual-mode.js';
+import { loadRender, createFittedRender } from '../ui/render-image.js';
+import { createRenderControls } from '../ui/render-controls.js';
+import { calibratedFloors } from '../model/tower-calibration.js';
 
 const NARROW = 720;
 
@@ -54,9 +58,15 @@ export function renderTower(container, { project, units, focusFloor = null }) {
   const card = createHoverCard({ onAction: enterFloor });
   stage.append(card.element);
 
+  const render = project.tower.render;
+  const controls = createRenderControls();
+  controls.setAvailable(Boolean(render?.src && render.size && render.floors));
+  hud.append(controls.element);
+
   let scene = null;
   let layer = null;
   let firstBuild = true;
+  let disposed = false;
 
   function hotspotItems() {
     const { onlyAvailable } = getState();
@@ -100,15 +110,21 @@ export function renderTower(container, { project, units, focusFloor = null }) {
     const narrow = box.width < NARROW;
     const previous = layer ? layer.activeId : focusFloor;
 
-    scene = createVisual(project.tower.visual, {
-      ...sceneOptions,
-      width: box.width,
-      height: box.height,
-      focusX: narrow ? 0.3 : 0.46,
-      topInset: narrow ? hud.offsetTop + hud.offsetHeight + 20 : 64,
-      label: t('tower.sceneLabel', { name: localize(project.name), floors: project.tower.floors }),
-    });
+    const topInset = narrow ? hud.offsetTop + hud.offsetHeight + 20 : 64;
+    const label = t('tower.sceneLabel', { name: localize(project.name), floors: project.tower.floors });
+    const showing = renderReady();
+    scene = showing
+      ? renderScene(box, { topInset, focusX: narrow ? 0.5 : 0.46, label })
+      : createVisual(project.tower.visual, {
+          ...sceneOptions,
+          width: box.width,
+          height: box.height,
+          focusX: narrow ? 0.3 : 0.46,
+          topInset,
+          label,
+        });
     sceneHost.replaceChildren(scene.element);
+    controls.setShowing(showing);
 
     layer = createHotspotLayer({
       viewBox: scene.viewBox,
@@ -127,6 +143,38 @@ export function renderTower(container, { project, units, focusFloor = null }) {
       revealScene(scene.element, scene.element.querySelectorAll('[data-lit]'));
       firstBuild = false;
     }
+  }
+
+  // Render yüklendiyse ve seçiliyse true. Yüklenmediyse yüklemeyi başlatır; bitince sahne yeniden kurulur.
+  function renderReady() {
+    if (!controls.element.hidden && wantsRender(render)) {
+      const entry = loadRender(project, render);
+      if (entry.loaded) return true;
+      entry.promise.then(() => {
+        if (!disposed && wantsRender(render)) rebuildWithFade();
+      }, () => {});
+    }
+    return false;
+  }
+
+  function renderScene(box, { topInset, focusX, label }) {
+    const fitted = createFittedRender(project, render, {
+      width: box.width,
+      height: box.height,
+      area: [0, topInset, box.width, box.height - topInset - 8],
+      focusX,
+      label,
+    });
+    const hotspots = calibratedFloors(render.floors, project.tower.floors).map((floor) => ({
+      ...floor,
+      points: floor.points.map(fitted.toScene),
+    }));
+    return { element: fitted.element, viewBox: [box.width, box.height], hotspots };
+  }
+
+  function rebuildWithFade() {
+    build();
+    fadeIn(sceneHost);
   }
 
   function refreshTexts() {
@@ -159,6 +207,7 @@ export function renderTower(container, { project, units, focusFloor = null }) {
   const unsubscribe = subscribe((state, changed) => {
     if (changed.includes('lang') || changed.includes('currency')) refreshTexts();
     if (changed.includes('onlyAvailable')) syncFilter(state);
+    if (changed.includes('visualMode') && !controls.element.hidden) rebuildWithFade();
   });
 
   title.textContent = localize(project.name);
@@ -168,6 +217,8 @@ export function renderTower(container, { project, units, focusFloor = null }) {
   const stopObserving = observeSize(stage, build);
 
   return () => {
+    disposed = true;
+    controls.destroy();
     unsubscribe();
     stopObserving();
     document.removeEventListener('keydown', onKeydown);

@@ -150,3 +150,18 @@
     grid-template-columns: auto auto;
   }
 }
+
+/* Çizim / Render düğmesi: mobilde üst çubuğun altında, masaüstünde sol üstte. */
+.room__visual-mode {
+  position: absolute;
+  top: calc(max(12px, env(safe-area-inset-top)) + 60px);
+  left: var(--gutter);
+  z-index: 5;
+}
+
+@media (min-width: 900px) {
+  .room__visual-mode {
+    top: max(12px, env(safe-area-inset-top));
+    left: 32px;
+  }
+}
