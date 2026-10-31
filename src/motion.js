@@ -68,3 +68,29 @@ export function screenIn(element) {
     { opacity: 1, y: 0, duration: prefersReducedMotion() ? 0.25 : 0.5, ease: 'power2.out', clearProps: 'transform' },
   );
 }
+
+// Çok yavaş yakınlaşma (iç mekânlar). Azaltılmış harekette hiç yapılmaz. Durdurma fonksiyonu döndürür.
+export function slowZoom(element, [originX, originY]) {
+  const gsap = getGsap();
+  if (!gsap || prefersReducedMotion()) return () => {};
+  const tween = gsap.fromTo(
+    element,
+    { scale: 1 },
+    { scale: 1.12, duration: 60, ease: 'none', transformOrigin: `${originX}px ${originY}px` },
+  );
+  return () => tween.kill();
+}
+
+// Yeni katmanı eskisinin üstünde belirginleştirir, sonra eskisini kaldırır.
+export function crossfade(incoming, outgoing) {
+  const gsap = getGsap();
+  if (!gsap || !outgoing) {
+    outgoing?.remove();
+    return;
+  }
+  gsap.fromTo(
+    incoming,
+    { opacity: 0 },
+    { opacity: 1, duration: prefersReducedMotion() ? 0.3 : 0.7, ease: 'power1.inOut', onComplete: () => outgoing.remove() },
+  );
+}

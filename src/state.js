@@ -8,6 +8,7 @@ const state = {
   room: null,
   onlyAvailable: false,
   leadUnit: null,
+  similarFor: null,
 };
 
 const listeners = new Set();

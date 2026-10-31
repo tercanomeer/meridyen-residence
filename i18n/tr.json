@@ -60,5 +60,10 @@
     "details": "Ayrıntılar",
     "planLabel": "{type} daire planı",
     "roomList": "Odalar"
+  },
+  "room": {
+    "backToPlan": "Plana dön",
+    "enter": "İçeri gir",
+    "sceneLabel": "{room}, iç mekân görünümü"
   }
 }

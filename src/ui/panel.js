@@ -169,6 +169,12 @@ export function createPanel({ project, units, unit, type, facades, onAppointment
     close() {
       setOpen(false);
     },
+    showSimilar() {
+      similar.hidden = false;
+      renderSimilar();
+      setOpen(true);
+      similar.scrollIntoView({ block: 'nearest' });
+    },
     destroy() {
       sheet.removeEventListener('change', syncSheet);
       stopObserving();

@@ -14,7 +14,7 @@ import { locateUnit, placedFacades, placedFootprint, placedRooms } from '../mode
 
 const areaOf = ([, , w, h]) => Math.round(w * h);
 
-export function renderUnitPlan(container, { project, units, floor, unitId }) {
+export function renderUnitPlan(container, { project, units, floor, unitId, focusRoom = null }) {
   const unit = units.find((entry) => entry.id === unitId && entry.floor === floor);
   const located = unit && locateUnit(project, unit);
   if (!located) {
@@ -39,7 +39,8 @@ export function renderUnitPlan(container, { project, units, floor, unitId }) {
   const stage = root.querySelector('.unit__stage');
   const sceneHost = root.querySelector('.unit__scene');
   const hotspotHost = root.querySelector('.unit__hotspots');
-  const tag = createRoomTag();
+  const enterRoom = (roomId) => navigate({ floor, unit: unit.id, room: roomId });
+  const tag = createRoomTag({ onAction: enterRoom });
   stage.append(tag.element);
 
   const backToFloor = () => navigate({ floor });
@@ -58,7 +59,12 @@ export function renderUnitPlan(container, { project, units, floor, unitId }) {
   let scene = null;
   let layer = null;
 
-  const roomContent = (room) => ({ title: localize(room.label), meta: t('unit.areaValue', { area: areaOf(room.rect) }) });
+  const roomContent = (room) => ({
+    id: room.id,
+    title: localize(room.label),
+    meta: t('unit.areaValue', { area: areaOf(room.rect) }),
+    action: room.visual ? t('room.enter') : null,
+  });
 
   function hotspotItems() {
     return scene.hotspots.map((hotspot) => {
@@ -82,7 +88,7 @@ export function renderUnitPlan(container, { project, units, floor, unitId }) {
   function build() {
     const box = stage.getBoundingClientRect();
     if (!box.width || !box.height) return;
-    const previous = layer?.activeId ?? getState().room;
+    const previous = layer ? layer.activeId : focusRoom;
     const hadFocus = hotspotHost.contains(document.activeElement);
     scene = createVisual(type.plan ?? 'svg:unit-plan', {
       width: Math.round(box.width),
@@ -103,9 +109,9 @@ export function renderUnitPlan(container, { project, units, floor, unitId }) {
       items: hotspotItems(),
       label: t('unit.roomList'),
       onPreview: showRoom,
-      onActivate: (roomId) => navigate({ floor, unit: unit.id, room: roomId }),
-      onLeave: () => {
-        if (getState().room === null) layer.setActive(null);
+      onActivate: enterRoom,
+      onLeave: (event) => {
+        if (!tag.element.contains(event.relatedTarget)) layer.setActive(null);
       },
     });
     hotspotHost.replaceChildren(layer.element);
@@ -121,8 +127,7 @@ export function renderUnitPlan(container, { project, units, floor, unitId }) {
 
   const onKeydown = (event) => {
     if (event.key !== 'Escape') return;
-    if (getState().room !== null) navigate({ floor, unit: unit.id });
-    else if (panel.isOpen && panel.element.classList.contains('is-sheet')) panel.close();
+    if (panel.isOpen && panel.element.classList.contains('is-sheet')) panel.close();
     else backToFloor();
   };
   document.addEventListener('keydown', onKeydown);
@@ -133,12 +138,15 @@ export function renderUnitPlan(container, { project, units, floor, unitId }) {
       panel.refresh();
       build();
     }
-    if (changed.includes('room') && layer) layer.setActive(state.room);
   });
 
   renderTexts();
   applyBindings(root);
   panel.mount();
+  if (getState().similarFor === unit.id) {
+    panel.showSimilar();
+    setState({ similarFor: null });
+  }
   build();
   const stopObserving = observeSize(stage, build);
 

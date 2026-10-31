@@ -2,6 +2,9 @@
 // Bakış güneydoğudan: kutuların üst, güney ve doğu yüzleri görünür.
 
 import { svgEl, toPoints } from './svg.js';
+import { shade } from './color.js';
+
+export { shade };
 
 const COS30 = Math.cos(Math.PI / 6);
 
@@ -51,12 +54,6 @@ export function boxSilhouette(view, [x, y, w, d], z0, z1) {
 // Ressam sıralaması: güneydoğu köşesi büyük olan sonra çizilir.
 export function depthKey([x, y, w, d]) {
   return x + w + y + d;
-}
-
-export function shade(hex, amount) {
-  const value = parseInt(hex.slice(1), 16);
-  const channel = (shift) => Math.round(((value >> shift) & 255) * (1 - amount));
-  return `#${[16, 8, 0].map((shift) => channel(shift).toString(16).padStart(2, '0')).join('')}`;
 }
 
 export function drawBox(view, rect, z0, z1, color, attrs = {}) {

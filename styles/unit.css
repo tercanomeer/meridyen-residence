@@ -70,6 +70,24 @@
   color: var(--color-text-muted);
 }
 
+.room-tag__action {
+  min-height: 32px;
+  margin-top: 6px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.room-tag__action[hidden] {
+  display: none;
+}
+
 @media (max-width: 899px) {
   .unit {
     --sheet-peek: 148px;

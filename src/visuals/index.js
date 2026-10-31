@@ -5,11 +5,15 @@
 import { towerSvg } from './tower-svg.js';
 import { floorPlateSvg } from './floor-plate-svg.js';
 import { isoPlanSvg } from './iso-plan-svg.js';
+import { interiorSvg } from './interior-svg.js';
+
+const ROOM_KINDS = ['living', 'dining', 'kitchen', 'bedroom', 'bath', 'terrace'];
 
 const generators = new Map([
   ['tower', towerSvg],
   ['floor-plate', floorPlateSvg],
   ['unit-plan', isoPlanSvg],
+  ...ROOM_KINDS.map((kind) => [`room-${kind}`, (options) => interiorSvg({ ...options, kind })]),
 ]);
 
 export function registerVisual(name, generator) {

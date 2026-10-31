@@ -139,7 +139,7 @@ export function createHotspotLayer({ viewBox: [vw, vh], items, label, onPreview,
   update(items);
 
   element.addEventListener('pointerleave', (event) => {
-    if (event.pointerType !== 'touch') onLeave?.();
+    if (event.pointerType !== 'touch') onLeave?.(event);
   });
 
   return {

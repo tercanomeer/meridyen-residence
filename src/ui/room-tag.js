@@ -1,17 +1,29 @@
 // Planda vurgulanan odanın adını gösteren küçük etiket (odanın üstünde ortalanır).
+// İçi gezilebilen odalarda "İçeri gir" düğmesi de çıkar (dokunmatikte odaya giriş yolu).
 
-export function createRoomTag() {
+export function createRoomTag({ onAction }) {
   const element = document.createElement('div');
   element.className = 'room-tag';
   element.hidden = true;
-  element.innerHTML = '<span class="room-tag__name"></span><span class="room-tag__area"></span>';
-  const [name, area] = element.children;
+  element.innerHTML = `
+    <span class="room-tag__name"></span>
+    <span class="room-tag__area"></span>
+    <button type="button" class="room-tag__action"></button>`;
+  const [name, area, action] = element.children;
+  let currentId = null;
+
+  action.addEventListener('click', () => {
+    if (currentId !== null) onAction(currentId);
+  });
 
   return {
     element,
-    show({ title, meta }, anchor, bounds) {
+    show({ id, title, meta, action: actionLabel }, anchor, bounds) {
+      currentId = id;
       name.textContent = title;
       area.textContent = meta;
+      action.textContent = actionLabel ?? '';
+      action.hidden = !actionLabel;
       element.hidden = false;
       const width = element.offsetWidth;
       const height = element.offsetHeight;
@@ -20,6 +32,7 @@ export function createRoomTag() {
       Object.assign(element.style, { left: `${left}px`, top: `${top}px` });
     },
     hide() {
+      currentId = null;
       element.hidden = true;
     },
   };

@@ -285,6 +285,7 @@
       "area": 320,
       "basePrice": 3400000,
       "plan": "svg:unit-plan",
+      "interior": { "mood": "sunset", "ceiling": 3.2 },
       "size": [14, 24],
       "footprint": [[0, 0, 10, 18], [10, 12.5, 4, 5.5], [0, 18, 14, 6]],
       "facades": ["north", "west", "south"],

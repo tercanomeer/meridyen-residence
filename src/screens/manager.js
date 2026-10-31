@@ -1,22 +1,25 @@
-// Hangi ekranın açık olduğunu state'ten (floor, unit) çıkarır; değişince eskisini söküp yenisini kurar.
-// Geri dönüşte önceki kat/daire vurgulu açılır; klavye odağı yeni ekranın başlığına taşınır.
+// Hangi ekranın açık olduğunu state'ten (floor, unit, room) çıkarır; değişince eskisini söküp yenisini kurar.
+// Aynı dairenin odaları arasında geçiş oda ekranının içinde olur. Geri dönüşte önceki kat/daire/oda
+// vurgulu açılır; klavye odağı yeni ekranın başlığına taşınır.
 
 import { getState, subscribe } from '../state.js';
 import { screenIn } from '../motion.js';
 import { renderTower } from './tower.js';
 import { renderFloor } from './floor.js';
 import { renderUnitPlan } from './unit-plan.js';
+import { renderRoom } from './room.js';
 
-function screenKey({ floor, unit }) {
+function screenKey({ floor, unit, room }) {
   if (floor === null) return 'tower';
   if (unit === null) return `floor:${floor}`;
-  return `unit:${floor}/${unit}`;
+  if (room === null) return `unit:${floor}/${unit}`;
+  return `room:${floor}/${unit}`;
 }
 
 export function mountScreens(container, data) {
   let key = null;
   let cleanup = null;
-  let previous = { floor: null, unit: null };
+  let previous = { floor: null, unit: null, room: null };
 
   function show(state) {
     const next = screenKey(state);
@@ -32,11 +35,15 @@ export function mountScreens(container, data) {
     if (state.floor === null) {
       cleanup = renderTower(view, { ...data, focusFloor: previous.floor });
     } else if (state.unit === null) {
-      cleanup = renderFloor(view, { ...data, floor: state.floor, focusUnit: previous.floor === state.floor ? previous.unit : null });
+      const focusUnit = previous.floor === state.floor ? previous.unit : null;
+      cleanup = renderFloor(view, { ...data, floor: state.floor, focusUnit });
+    } else if (state.room === null) {
+      const focusRoom = previous.unit === state.unit ? previous.room : null;
+      cleanup = renderUnitPlan(view, { ...data, floor: state.floor, unitId: state.unit, focusRoom });
     } else {
-      cleanup = renderUnitPlan(view, { ...data, floor: state.floor, unitId: state.unit });
+      cleanup = renderRoom(view, { ...data, floor: state.floor, unitId: state.unit });
     }
-    previous = { floor: state.floor, unit: state.unit };
+    previous = { floor: state.floor, unit: state.unit, room: state.room };
 
     if (!isFirst) {
       window.scrollTo(0, 0);
@@ -46,7 +53,8 @@ export function mountScreens(container, data) {
   }
 
   subscribe((state, changed) => {
-    if (changed.includes('floor') || changed.includes('unit')) show(state);
+    if (['floor', 'unit', 'room'].some((field) => changed.includes(field))) show(state);
+    if (changed.includes('room')) previous.room = state.room ?? previous.room;
   });
   show(getState());
 }

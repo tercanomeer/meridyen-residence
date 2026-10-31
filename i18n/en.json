@@ -60,5 +60,10 @@
     "details": "Details",
     "planLabel": "{type} floor plan",
     "roomList": "Rooms"
+  },
+  "room": {
+    "backToPlan": "Back to plan",
+    "enter": "Step inside",
+    "sceneLabel": "{room}, interior view"
   }
 }
