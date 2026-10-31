@@ -1,0 +1,265 @@
+/* Daire bilgi paneli. Masaüstünde sağ sütun; mobilde alttan açılan kart (.is-sheet). */
+
+.panel {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 80px 28px 28px;
+  border-left: 1px solid var(--color-line);
+  background: rgb(9 18 32 / 0.72);
+}
+
+.panel__handle {
+  display: none;
+}
+
+.panel__eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.panel__title {
+  margin-top: 6px;
+  font-size: 2.25rem;
+}
+
+.panel__price-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 12px;
+}
+
+.panel__price {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--color-accent-strong);
+}
+
+.panel__price:empty {
+  display: none;
+}
+
+.panel__body {
+  display: grid;
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.panel__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 14px 12px;
+  margin: 0;
+  padding: 16px 0;
+  border-block: 1px solid var(--color-line);
+}
+
+.panel__facts dt {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.panel__facts dd {
+  margin: 2px 0 0;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+}
+
+.panel__views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.panel__views li {
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: rgb(243 236 224 / 0.08);
+  font-size: 0.75rem;
+}
+
+.panel__subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.panel__features {
+  display: grid;
+  gap: 8px;
+  margin: -8px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+
+.panel__features li {
+  display: flex;
+  gap: 10px;
+}
+
+.panel__features li::before {
+  content: '';
+  flex: none;
+  width: 14px;
+  height: 1px;
+  margin-top: 0.75em;
+  background: var(--color-accent);
+}
+
+.panel__actions {
+  display: grid;
+  gap: 10px;
+}
+
+.panel__similar[hidden] {
+  display: none;
+}
+
+.panel__similar-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.similar-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: rgb(18 33 58 / 0.6);
+  text-align: left;
+  cursor: pointer;
+}
+
+.similar-row:hover {
+  border-color: var(--color-accent);
+}
+
+.similar-row__id {
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+}
+
+.similar-row__meta {
+  grid-column: 1;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.similar-row__price {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-family: var(--font-serif);
+  color: var(--color-accent-strong);
+}
+
+.panel__similar-empty {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+/* Mobil: alttan açılan kart. Kapalıyken yalnızca tutamak ve başlık görünür. */
+.panel.is-sheet {
+  position: fixed;
+  inset: auto 0 0;
+  max-height: 86dvh;
+  padding: 0 var(--gutter) max(20px, env(safe-area-inset-bottom));
+  border-left: 0;
+  border-top: 1px solid var(--color-line);
+  border-radius: 20px 20px 0 0;
+  background: rgb(9 18 32 / 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 -16px 40px rgb(0 0 0 / 0.4);
+  transform: translateY(calc(100% - var(--peek, 148px)));
+  transition: transform 0.35s var(--ease-calm);
+}
+
+.panel.is-sheet.is-open {
+  transform: none;
+}
+
+.panel.is-sheet .panel__handle {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 10px 0 6px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.panel__grip {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgb(243 236 224 / 0.3);
+}
+
+.panel__handle-label {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.panel.is-sheet.is-open .panel__handle-label {
+  visibility: hidden;
+}
+
+.panel.is-sheet .panel__head {
+  padding-bottom: 14px;
+  cursor: pointer;
+}
+
+.panel.is-sheet.is-open .panel__head {
+  cursor: default;
+}
+
+.panel.is-sheet .panel__title {
+  margin-top: 2px;
+  font-size: 1.625rem;
+}
+
+.panel.is-sheet .panel__price-row {
+  margin-top: 6px;
+}
+
+.panel.is-sheet .panel__price {
+  font-size: 1.375rem;
+}
+
+.panel.is-sheet .panel__body {
+  margin-top: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel.is-sheet {
+    transition-duration: 0.01ms;
+  }
+}

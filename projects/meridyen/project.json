@@ -48,6 +48,7 @@
   "floorLayouts": [
     {
       "id": "a",
+      "visual": "svg:floor-plate",
       "floors": [3, 12],
       "plate": [28, 18],
       "core": [10, 5.5, 8, 7],
@@ -61,6 +62,7 @@
     },
     {
       "id": "b",
+      "visual": "svg:floor-plate",
       "floors": [13, 22],
       "plate": [28, 18],
       "core": [10, 5.5, 8, 7],
@@ -73,6 +75,7 @@
     },
     {
       "id": "c",
+      "visual": "svg:floor-plate",
       "floors": [23, 29],
       "plate": [28, 18],
       "core": [10, 5.5, 8, 7],
@@ -84,6 +87,7 @@
     },
     {
       "id": "penthouse",
+      "visual": "svg:floor-plate",
       "floors": [30, 32],
       "plate": [28, 24],
       "core": [10, 5.5, 8, 7],

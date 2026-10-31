@@ -7,6 +7,7 @@ const state = {
   unit: null,
   room: null,
   onlyAvailable: false,
+  leadUnit: null,
 };
 
 const listeners = new Set();

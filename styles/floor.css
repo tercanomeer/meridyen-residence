@@ -1,0 +1,185 @@
+/* Kat ekranı: başlık, izometrik plaka, daire listesi. Masaüstünde liste sağda, mobilde altta. */
+
+.floor {
+  display: grid;
+  grid-template-rows: auto minmax(52vh, 1fr) auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding-top: calc(max(12px, env(safe-area-inset-top)) + 52px);
+}
+
+.floor__head {
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+  padding: 8px var(--gutter) 0;
+}
+
+.floor__head .back-link {
+  margin-bottom: 6px;
+}
+
+.floor__title {
+  font-size: 2rem;
+}
+
+.floor__meta {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.floor__head .legend {
+  margin-top: 4px;
+}
+
+.floor__stage {
+  position: relative;
+  min-height: 0;
+}
+
+.floor__scene,
+.floor__hotspots {
+  position: absolute;
+  inset: 0;
+}
+
+.floor__scene > svg,
+.floor__scene > img,
+.floor__hotspots > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.floor__scene > img {
+  object-fit: contain;
+}
+
+.plate-id {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  fill: var(--night-900);
+  pointer-events: none;
+}
+
+.plate-id[data-status='sold'] {
+  fill: var(--beige-300);
+  opacity: 0.7;
+}
+
+.plate-wave {
+  fill: none;
+  stroke: var(--beige-300);
+  stroke-opacity: 0.25;
+  stroke-width: 1;
+}
+
+.plate-sea-label,
+.plan-sea-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  fill: var(--beige-300);
+  opacity: 0.7;
+}
+
+.floor__list {
+  padding: 8px var(--gutter) max(24px, env(safe-area-inset-bottom));
+}
+
+.floor__list-title {
+  margin-bottom: 10px;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.unit-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.unit-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    'id type chip'
+    'id price chip';
+  align-items: center;
+  gap: 2px 14px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: rgb(18 33 58 / 0.6);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease-calm), background-color 0.2s var(--ease-calm);
+}
+
+.unit-row:hover,
+.unit-row.is-active {
+  border-color: var(--color-accent);
+  background: rgb(28 47 77 / 0.75);
+}
+
+.unit-row[data-status='sold'] {
+  opacity: 0.6;
+}
+
+.unit-row__id {
+  grid-area: id;
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  font-weight: 500;
+}
+
+.unit-row__type {
+  grid-area: type;
+  font-size: 0.8125rem;
+}
+
+.unit-row__price {
+  grid-area: price;
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  color: var(--color-accent-strong);
+}
+
+.unit-row .status-chip {
+  grid-area: chip;
+}
+
+@media (min-width: 960px) {
+  .floor {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    grid-template-rows: auto minmax(0, 1fr);
+    height: 100vh;
+    height: 100dvh;
+    padding-top: 0;
+  }
+
+  .floor__head {
+    padding-top: max(20px, env(safe-area-inset-top));
+  }
+
+  .floor__title {
+    font-size: 2.5rem;
+  }
+
+  .floor__list {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    overflow-y: auto;
+    padding: 80px 24px 24px;
+    border-left: 1px solid var(--color-line);
+    background: rgb(7 15 28 / 0.4);
+  }
+}

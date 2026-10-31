@@ -5,9 +5,9 @@
 
 import { readFile, writeFile } from 'node:fs/promises';
 import { createRng } from '../src/visuals/rng.js';
+import { placeRect, placedFacades } from '../src/model/layout.js';
 
 const EPS = 1e-6;
-const MIRRORED_SIDE = { west: 'east', east: 'west', north: 'north', south: 'south' };
 
 const area = ([, , w, h]) => w * h;
 const sum = (rects) => rects.reduce((total, rect) => total + area(rect), 0);
@@ -44,11 +44,6 @@ function validateType(code, type) {
   if (Math.abs(roomArea - sum(type.footprint)) > EPS) {
     throw new Error(`type ${code}: rooms cover ${roomArea} m² of a ${sum(type.footprint)} m² footprint`);
   }
-}
-
-function placeRect([x, y, w, h], placement, type) {
-  const localX = placement.mirror ? type.size[0] - x - w : x;
-  return [placement.at[0] + localX, placement.at[1] + y, w, h];
 }
 
 // Daireler, çekirdek ve lobi kat plakasını boşluksuz ve taşmasız kaplamalı.
@@ -122,7 +117,7 @@ function buildUnits(project) {
     for (let floor = layout.floors[0]; floor <= layout.floors[1]; floor += 1) {
       layout.units.forEach((placement) => {
         const type = types[placement.type];
-        const facades = type.facades.map((side) => (placement.mirror ? MIRRORED_SIDE[side] : side));
+        const facades = placedFacades(type, placement);
         units.push({
           id: `${floor}-${placement.slot}`,
           floor,

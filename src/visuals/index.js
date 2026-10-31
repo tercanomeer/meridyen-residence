@@ -1,9 +1,16 @@
 // "svg:<ad>" görsellerinin üretici kaydı.
 // Üretici { element, viewBox: [w, h], hotspots: [{ id, points, outline? }] } döndürür; noktalar 0–1.
+// points tek çokgen ([[x, y], …]) ya da çokgen listesi olabilir.
 
 import { towerSvg } from './tower-svg.js';
+import { floorPlateSvg } from './floor-plate-svg.js';
+import { isoPlanSvg } from './iso-plan-svg.js';
 
-const generators = new Map([['tower', towerSvg]]);
+const generators = new Map([
+  ['tower', towerSvg],
+  ['floor-plate', floorPlateSvg],
+  ['unit-plan', isoPlanSvg],
+]);
 
 export function registerVisual(name, generator) {
   generators.set(name, generator);

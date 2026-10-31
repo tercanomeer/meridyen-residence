@@ -8,7 +8,7 @@ import { loadProject } from './data/load-project.js';
 import { loadUnits } from './data/load-units.js';
 import { applyBindings } from './ui/bindings.js';
 import { mountToggles } from './ui/toggles.js';
-import { renderTower } from './screens/tower.js';
+import { mountScreens } from './screens/manager.js';
 
 async function boot() {
   const projectId = document.body.dataset.project;
@@ -26,7 +26,7 @@ async function boot() {
   refresh();
   syncToggles(getState());
   document.body.dataset.ready = 'true';
-  renderTower(document.querySelector('[data-slot="screen"]'), { project, units });
+  mountScreens(document.querySelector('[data-slot="screen"]'), { project, units });
 
   subscribe((state, changed) => {
     if (changed.includes('lang') || changed.includes('currency')) refresh();

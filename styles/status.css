@@ -1,0 +1,130 @@
+/* Satış durumu: çip, açıklama (legend), geri bağlantısı ve düğmeler. */
+
+:root {
+  --status-available: #d4b06c;
+  --status-reserved: #a5774b;
+  --status-sold: #5b6782;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 8px;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-pill);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.status-chip::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-chip[data-status='available'] {
+  color: var(--status-available);
+}
+
+.status-chip[data-status='reserved'] {
+  color: #c99a6a;
+}
+
+.status-chip[data-status='sold'] {
+  color: #8e98ad;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.legend [data-status='available'] .legend__dot {
+  background: var(--status-available);
+}
+
+.legend [data-status='reserved'] .legend__dot {
+  background: var(--status-reserved);
+}
+
+.legend [data-status='sold'] .legend__dot {
+  background: var(--status-sold);
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px 0 10px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: rgb(11 22 38 / 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease-calm);
+}
+
+.back-link:hover {
+  border-color: var(--color-accent);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: var(--radius-pill);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease-calm), border-color 0.2s var(--ease-calm);
+}
+
+.button--primary {
+  border: 0;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.button--primary:hover {
+  background: var(--color-accent-strong);
+}
+
+.button--ghost {
+  border: 1px solid var(--color-line);
+  background: transparent;
+  color: var(--color-text);
+}
+
+.button--ghost:hover {
+  border-color: var(--color-accent);
+}

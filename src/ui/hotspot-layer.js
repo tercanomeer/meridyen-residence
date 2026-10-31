@@ -7,7 +7,7 @@ import { svgEl, toPoints } from '../visuals/svg.js';
 const NEXT_KEYS = ['ArrowUp', 'ArrowRight'];
 const PREV_KEYS = ['ArrowDown', 'ArrowLeft'];
 
-export function createHotspotLayer({ viewBox: [vw, vh], items, label, onPreview, onActivate }) {
+export function createHotspotLayer({ viewBox: [vw, vh], items, label, onPreview, onActivate, onLeave }) {
   const element = svgEl('svg', {
     class: 'hotspots',
     viewBox: `0 0 ${vw} ${vh}`,
@@ -16,7 +16,11 @@ export function createHotspotLayer({ viewBox: [vw, vh], items, label, onPreview,
     'aria-label': label,
     tabindex: '-1',
   });
-  const scale = (points) => toPoints(points.map(([x, y]) => [x * vw, y * vh]));
+  // Tek çokgen ya da çokgen listesi → path verisi (L biçimli daireler birden çok parçadan oluşur).
+  const toPath = (points) => {
+    const polygons = Array.isArray(points[0]?.[0]) ? points : [points];
+    return polygons.map((polygon) => `M${toPoints(polygon.map(([x, y]) => [x * vw, y * vh])).replaceAll(' ', 'L')}Z`).join('');
+  };
   const nodes = new Map();
   let activeKey = null;
   let lastPointer = 'mouse';
@@ -24,11 +28,11 @@ export function createHotspotLayer({ viewBox: [vw, vh], items, label, onPreview,
 
   items.forEach((item) => {
     const key = String(item.id);
-    const outline = scale(item.outline ?? item.points);
-    const shape = svgEl('polygon', { class: 'hotspot__shape', points: outline });
-    const hit = svgEl('polygon', { class: 'hotspot__hit', points: scale(item.points), role: 'button', tabindex: '-1' });
+    const outline = toPath(item.outline ?? item.points);
+    const shape = svgEl('path', { class: 'hotspot__shape', d: outline });
+    const hit = svgEl('path', { class: 'hotspot__hit', d: toPath(item.points), role: 'button', tabindex: '-1' });
     hit.dataset.key = key;
-    const group = svgEl('g', { class: 'hotspot' }, [svgEl('polygon', { class: 'hotspot__dim', points: outline }), shape, hit]);
+    const group = svgEl('g', { class: 'hotspot' }, [svgEl('path', { class: 'hotspot__dim', d: outline }), shape, hit]);
     element.append(group);
     nodes.set(key, { item, group, shape, hit });
   });
@@ -133,6 +137,10 @@ export function createHotspotLayer({ viewBox: [vw, vh], items, label, onPreview,
   });
 
   update(items);
+
+  element.addEventListener('pointerleave', (event) => {
+    if (event.pointerType !== 'touch') onLeave?.();
+  });
 
   return {
     element,

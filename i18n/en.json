@@ -30,5 +30,35 @@
     "soldOut": "Sold out",
     "noneAvailable": "None available",
     "explore": "Explore"
+  },
+  "status": {
+    "available": "Available",
+    "reserved": "Reserved",
+    "sold": "Sold"
+  },
+  "floor": {
+    "back": "Tower",
+    "backLabel": "Back to the tower",
+    "units": "Residences",
+    "sea": "Sea",
+    "plateLabel": "Floor {floor} plan"
+  },
+  "unit": {
+    "title": "Residence {id}",
+    "areaValue": "{area} m²",
+    "floor": "Floor",
+    "type": "Type",
+    "area": "Area",
+    "rooms": "Bedrooms",
+    "roomsValue": "{bedrooms}",
+    "bathrooms": "Bathrooms",
+    "features": "Features",
+    "appointment": "Book a viewing",
+    "backToFloor": "Back to floor",
+    "similar": "Show similar residences",
+    "similarNone": "No similar residences are available right now.",
+    "details": "Details",
+    "planLabel": "{type} floor plan",
+    "roomList": "Rooms"
   }
 }

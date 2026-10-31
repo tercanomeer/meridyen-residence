@@ -1,0 +1,92 @@
+/* Daire ekranı: izometrik plan sahnesi ve oda etiketi. Panel stilleri panel.css'te. */
+
+.unit {
+  display: grid;
+  height: 100vh;
+  height: 100dvh;
+}
+
+.unit__stage {
+  position: relative;
+  min-height: 0;
+  padding-bottom: var(--sheet-peek, 0px);
+}
+
+.unit__back {
+  position: absolute;
+  top: calc(max(12px, env(safe-area-inset-top)) + 52px);
+  left: var(--gutter);
+  z-index: 5;
+}
+
+.unit__scene,
+.unit__hotspots {
+  position: absolute;
+  inset: calc(max(12px, env(safe-area-inset-top)) + 100px) 0 var(--sheet-peek, 0px);
+}
+
+.unit__scene > svg,
+.unit__scene > img,
+.unit__hotspots > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.unit__scene > img {
+  object-fit: contain;
+}
+
+.unit__hotspots .hotspot.is-active .hotspot__shape {
+  fill: rgb(224 192 127 / 0.34);
+  stroke-width: 2;
+}
+
+.room-tag {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  padding: 6px 12px;
+  border: 1px solid var(--color-accent);
+  border-radius: 10px;
+  background: rgb(9 18 32 / 0.9);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.room-tag[hidden] {
+  display: none;
+}
+
+.room-tag__name {
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+
+.room-tag__area {
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 899px) {
+  .unit {
+    --sheet-peek: 148px;
+  }
+}
+
+@media (min-width: 900px) {
+  .unit {
+    grid-template-columns: minmax(0, 1fr) 400px;
+  }
+
+  .unit__back {
+    top: max(20px, env(safe-area-inset-top));
+  }
+
+  .unit__scene,
+  .unit__hotspots {
+    inset: 72px 0 24px;
+  }
+}

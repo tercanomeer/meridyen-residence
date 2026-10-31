@@ -30,5 +30,35 @@
     "soldOut": "Tümü satıldı",
     "noneAvailable": "Müsait daire yok",
     "explore": "İncele"
+  },
+  "status": {
+    "available": "Müsait",
+    "reserved": "Rezerve",
+    "sold": "Satıldı"
+  },
+  "floor": {
+    "back": "Kule",
+    "backLabel": "Kuleye dön",
+    "units": "Daireler",
+    "sea": "Deniz",
+    "plateLabel": "{floor}. kat planı"
+  },
+  "unit": {
+    "title": "Daire {id}",
+    "areaValue": "{area} m²",
+    "floor": "Kat",
+    "type": "Tip",
+    "area": "Alan",
+    "rooms": "Oda",
+    "roomsValue": "{layout}",
+    "bathrooms": "Banyo",
+    "features": "Özellikler",
+    "appointment": "Randevu Al",
+    "backToFloor": "Kata dön",
+    "similar": "Benzer daireleri göster",
+    "similarNone": "Şu an benzer müsait daire yok.",
+    "details": "Ayrıntılar",
+    "planLabel": "{type} daire planı",
+    "roomList": "Odalar"
   }
 }

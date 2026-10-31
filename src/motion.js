@@ -58,5 +58,13 @@ export function revealScene(scene, lights) {
   gsap.from(lights, { opacity: 0, duration: 0.5, delay: 0.3, stagger: { each: 1.2 / lights.length, from: 'random' } });
 }
 
-// Ekran geçişi. Sonraki fazda yazılacak.
-export function transitionScreen(outgoing, incoming) {}
+// Yeni ekranın girişi: hafif yükselerek solma; azaltılmış harekette yalnızca solma.
+export function screenIn(element) {
+  const gsap = getGsap();
+  if (!gsap) return;
+  gsap.fromTo(
+    element,
+    { opacity: 0, y: prefersReducedMotion() ? 0 : 14 },
+    { opacity: 1, y: 0, duration: prefersReducedMotion() ? 0.25 : 0.5, ease: 'power2.out', clearProps: 'transform' },
+  );
+}
