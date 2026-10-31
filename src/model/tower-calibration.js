@@ -39,3 +39,20 @@ export function calibratedFloors(markers = [], floors) {
     return { id: floor, points: [bottom.left, bottom.right, top.right, top.left] };
   });
 }
+
+const usableRender = (render) => Boolean(render?.src && render.size && render.floors?.length >= 2);
+
+// Kule render'ları: dikey görsel (render) ve isteğe bağlı geniş görsel (render.wide, yatay ekranlar için).
+export function towerRenderVariants(project) {
+  const render = project.tower.render;
+  return [
+    usableRender(render) && { ...render, shape: 'portrait', fit: 'contain' },
+    usableRender(render?.wide) && { ...render.wide, shape: 'wide', fit: 'cover' },
+  ].filter(Boolean);
+}
+
+// Yatay ekranda geniş görsel (varsa), dikey ekranda dikey görsel; biri yoksa diğeri.
+export function pickTowerRender(variants, { width, height }) {
+  const preferred = width > height ? 'wide' : 'portrait';
+  return variants.find((variant) => variant.shape === preferred) ?? variants[0] ?? null;
+}

@@ -21,6 +21,7 @@
 /* Kule: görselin tamamı sahnede, kenarlar aynı görselin bulanık hâliyle dolar. */
 .render--fitted .render__img {
   position: absolute;
+  max-width: none;
   object-fit: fill;
 }
 

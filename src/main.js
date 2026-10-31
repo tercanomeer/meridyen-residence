@@ -11,6 +11,7 @@ import { loadUnits } from './data/load-units.js';
 import { applyBindings } from './ui/bindings.js';
 import { mountToggles } from './ui/toggles.js';
 import { mountScreens } from './screens/manager.js';
+import { towerRenderVariants, pickTowerRender } from './model/tower-calibration.js';
 import { mountLeadForm } from './screens/lead-form.js';
 
 async function boot() {
@@ -18,7 +19,8 @@ async function boot() {
   const [project] = await Promise.all([loadProject(projectId), initI18n()]);
   initCurrency(project.currency);
   initVisualMode();
-  if (project.tower.render && getState().visualMode === 'render') loadRender(project, project.tower.render);
+  const towerRender = pickTowerRender(towerRenderVariants(project), { width: window.innerWidth, height: window.innerHeight });
+  if (towerRender && getState().visualMode === 'render') loadRender(project, towerRender);
   const units = await loadUnits(project);
   initRouter();
 

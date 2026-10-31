@@ -48,15 +48,19 @@ export function createRenderImage(project, render, { label = '', mirror = false 
   return { element, img };
 }
 
-// Kutuya sığdırılmış görsel (kule): görselin tamamı rect içinde, kalan alan aynı görselin bulanık hâli.
-export function createFittedRender(project, render, { width, height, area, focusX = 0.5, label = '' }) {
+// Kutuya yerleştirilmiş görsel (kule).
+//   contain: görselin tamamı area içinde, kalan alan aynı görselin bulanık hâli (dikey görsel, yatay ekran).
+//   cover: görsel area'yı kaplar; taşan kısım focus'a göre kırpılır (geniş görsel).
+export function createFittedRender(project, render, { width, height, area, fit = 'contain', focus = [0.5, 0.5], label = '' }) {
   const [iw, ih] = render.size;
   const [ax, ay, aw, ah] = area;
-  const scale = Math.min(aw / iw, ah / ih);
+  const [fx, fy] = focus;
+  const cover = fit === 'cover';
+  const scale = (cover ? Math.max : Math.min)(aw / iw, ah / ih);
   const w = iw * scale;
   const h = ih * scale;
-  const x = Math.min(Math.max(ax + aw * focusX - w / 2, ax), ax + aw - w);
-  const y = ay + (ah - h) / 2;
+  const x = cover ? ax + (aw - w) * fx : Math.min(Math.max(ax + aw * fx - w / 2, ax), ax + aw - w);
+  const y = cover ? ay + (ah - h) * fy : ay + (ah - h) / 2;
 
   const element = document.createElement('div');
   element.className = 'render render--fitted';
@@ -73,7 +77,8 @@ export function createFittedRender(project, render, { width, height, area, focus
   img.alt = '';
   [backdrop, img].forEach((node) => applySources(node, project, render));
   Object.assign(img.style, { left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${h}px` });
-  element.append(backdrop, img);
+  if (cover) element.append(img);
+  else element.append(backdrop, img);
 
   // Görsel içindeki 0–1 noktayı sahne içindeki 0–1 noktaya çevirir.
   const toScene = ([px, py]) => [(x + px * w) / width, (y + py * h) / height];

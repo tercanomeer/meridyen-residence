@@ -94,8 +94,33 @@ Kule görselinde katların nerede durduğunu motor bilemez. Kalibrasyon aracıyl
 **Kat sayısı:** görseldeki kat sayısının projedeki sayıyla birebir tutması gerekmez. Bantlar işaretler arasında eşit bölünür.
 
 **Ekrana yerleşim:**
-- **Masaüstü:** görselin tamamı gösterilir, iki yan aynı görselin bulanık hâliyle dolar.
-- **Telefon:** görsel başlığın altındaki alana sığdırılır.
+- **Telefon (dikey ekran):** dikey görsel başlığın altındaki alana sığdırılır.
+- **Masaüstü (yatay ekran):** geniş görsel varsa ekranı tamamen kaplar. Yoksa dikey görselin tamamı gösterilir ve iki yan aynı görselin bulanık hâliyle dolar.
+
+### Masaüstü için geniş görsel (önerilir)
+
+Dikey kule görseli yatay ekranda yanlarda boşluk bırakır. Aynı kulenin 16:9 geniş bir sürümünü `tower.render.wide` alanına ekleyin; ekran yataysa motor onu kullanır.
+
+1. **Görseli üretin.** En kolay yol, dikey görseli yapay zekâ ile yanlara genişletmektir: kule aynı kalır, gökyüzü, deniz ve siluet uzar. Kulenin üstünde boş gökyüzü bırakın; ekran oranı 16:9'dan farklıysa (ör. 16:10) görselin kenarları biraz kırpılır.
+2. **Çevirin.** `tower-wide.png` olarak `renders/` klasörüne koyup çevirme betiğini çalıştırın.
+3. **Kalibre edin.** Kalibrasyon aracında **Görsel türü → Geniş** seçin, işaretleri koyun ve çıktıyı `tower.render` nesnesinin içine yapıştırın:
+
+```json
+"render": {
+  "src": "renders/tower.webp",
+  "size": [1610, 2400],
+  "floors": [ … ],
+  "wide": {
+    "src": "renders/tower-wide.webp",
+    "small": "renders/tower-wide-small.webp",
+    "size": [2400, 1350],
+    "focus": [0.5, 0.5],
+    "floors": [ … ]
+  }
+}
+```
+
+`focus`, ekran oranı görselinkinden farklı olduğunda kırpmanın hangi noktaya göre yapılacağını belirler (isteğe bağlı).
 
 ## Kontrol listesi
 

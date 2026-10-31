@@ -12,6 +12,7 @@ const markerList = $('[data-markers]');
 const floorsInput = $('[data-floors]');
 const srcInput = $('[data-src]');
 const output = $('[data-output]');
+const variantInput = $('[data-variant]');
 
 let image = null;
 let overlay = null;
@@ -35,10 +36,12 @@ function el(tag, attrs = {}, text) {
 }
 
 function showImage(url) {
-  image = new Image();
+  const next = new Image();
+  image = next;
   image.alt = '';
   image.draggable = false;
   image.onload = () => {
+    if (image !== next) return;
     size = [image.naturalWidth, image.naturalHeight];
     overlay = el('svg', { viewBox: `0 0 ${size[0]} ${size[1]}`, preserveAspectRatio: 'none' });
     stage.replaceChildren(image, overlay);
@@ -47,22 +50,36 @@ function showImage(url) {
   image.src = url;
 }
 
+// Üst üste yüklemede yalnızca son istek geçerlidir.
+let loadToken = 0;
+
 async function loadProject() {
+  const token = ++loadToken;
   const id = $('[data-project]').value.trim();
   const response = await fetch(`../projects/${encodeURIComponent(id)}/project.json`, { cache: 'reload' });
+  if (token !== loadToken) return;
   if (!response.ok) {
     alert(`project.json bulunamadı (${response.status})`);
     return;
   }
   const project = await response.json();
+  if (token !== loadToken) return;
   floorsInput.value = project.tower?.floors ?? 32;
-  render = { ...(project.tower?.render ?? {}) };
+  const portrait = project.tower?.render ?? {};
+  render = { ...(variantInput.value === 'wide' ? portrait.wide ?? {} : portrait) };
+  delete render.wide;
+  size = null;
   markers = render.floors?.length ? render.floors.map((marker) => ({ ...marker })) : defaultMarkers(Number(floorsInput.value));
   target = nextTarget(0);
   srcInput.value = render.src ?? '';
   renderMarkerList();
   if (render.src) showImage(`../projects/${encodeURIComponent(id)}/${render.src}`);
-  else draw();
+  else {
+    image = null;
+    overlay = null;
+    stage.replaceChildren(Object.assign(document.createElement('div'), { className: 'empty', textContent: 'Bu türde görsel yok; bir dosya seçin.' }));
+    draw();
+  }
 }
 
 // Noktası eksik ilk köşe; hepsi doluysa son hedef korunur.
@@ -89,7 +106,7 @@ function pointFromEvent(event) {
 
 function draw() {
   renderOutput();
-  if (!overlay) return;
+  if (!overlay || !size) return;
   const [w, h] = size;
   const floors = Number(floorsInput.value);
   const bands = el('g');
@@ -170,8 +187,9 @@ function syncTargetButtons() {
 
 function renderOutput() {
   const complete = markers.filter((marker) => marker.left && marker.right);
+  const wide = variantInput.value === 'wide';
   const result = {
-    src: srcInput.value.trim() || 'renders/tower.webp',
+    src: srcInput.value.trim() || (wide ? 'renders/tower-wide.webp' : 'renders/tower.webp'),
     ...(render.small ? { small: render.small } : {}),
     size: size ?? render.size ?? [0, 0],
     floors: complete.map(({ floor, edge, left, right }) => ({ floor, edge, left, right })),
@@ -182,7 +200,8 @@ function renderOutput() {
     .join('\n')
     .replace(/"size": \[\s*(\d+),\s*(\d+)\s*\]/, '"size": [$1, $2]')
     .replace('"floors": []', `"floors": [\n${floorLines.join('\n')}\n  ]`);
-  output.value = `"render": ${json}`;
+  output.value = `"${wide ? 'wide' : 'render'}": ${json}`;
+  $('[data-output-title]').textContent = wide ? 'project.json → tower.render' : 'project.json → tower';
 }
 
 // Tıklama: hedef köşeyi koyar. Sürükleme: mevcut noktayı taşır.
@@ -211,6 +230,7 @@ stage.addEventListener('pointerup', () => {
 });
 
 $('[data-load]').addEventListener('click', loadProject);
+variantInput.addEventListener('change', loadProject);
 $('[data-file]').addEventListener('change', (event) => {
   const file = event.target.files?.[0];
   if (!file) return;

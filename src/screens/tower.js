@@ -15,7 +15,7 @@ import { revealScene, fadeIn } from '../motion.js';
 import { wantsRender } from '../visual-mode.js';
 import { loadRender, createFittedRender } from '../ui/render-image.js';
 import { createRenderControls } from '../ui/render-controls.js';
-import { calibratedFloors } from '../model/tower-calibration.js';
+import { calibratedFloors, towerRenderVariants, pickTowerRender } from '../model/tower-calibration.js';
 
 const NARROW = 720;
 
@@ -58,9 +58,9 @@ export function renderTower(container, { project, units, focusFloor = null }) {
   const card = createHoverCard({ onAction: enterFloor });
   stage.append(card.element);
 
-  const render = project.tower.render;
+  const variants = towerRenderVariants(project);
   const controls = createRenderControls();
-  controls.setAvailable(Boolean(render?.src && render.size && render.floors));
+  controls.setAvailable(variants.length > 0);
   hud.append(controls.element);
 
   let scene = null;
@@ -112,9 +112,10 @@ export function renderTower(container, { project, units, focusFloor = null }) {
 
     const topInset = narrow ? hud.offsetTop + hud.offsetHeight + 20 : 64;
     const label = t('tower.sceneLabel', { name: localize(project.name), floors: project.tower.floors });
-    const showing = renderReady();
+    const variant = pickTowerRender(variants, box);
+    const showing = renderReady(variant);
     scene = showing
-      ? renderScene(box, { topInset, focusX: narrow ? 0.5 : 0.46, label })
+      ? renderScene(variant, box, { topInset, focusX: narrow ? 0.5 : 0.46, label })
       : createVisual(project.tower.visual, {
           ...sceneOptions,
           width: box.width,
@@ -146,26 +147,29 @@ export function renderTower(container, { project, units, focusFloor = null }) {
   }
 
   // Render yüklendiyse ve seçiliyse true. Yüklenmediyse yüklemeyi başlatır; bitince sahne yeniden kurulur.
-  function renderReady() {
-    if (!controls.element.hidden && wantsRender(render)) {
-      const entry = loadRender(project, render);
+  function renderReady(variant) {
+    if (variant && wantsRender(variant)) {
+      const entry = loadRender(project, variant);
       if (entry.loaded) return true;
       entry.promise.then(() => {
-        if (!disposed && wantsRender(render)) rebuildWithFade();
+        if (!disposed && wantsRender(variant)) rebuildWithFade();
       }, () => {});
     }
     return false;
   }
 
-  function renderScene(box, { topInset, focusX, label }) {
-    const fitted = createFittedRender(project, render, {
+  // Geniş görsel ekranı kaplar; dikey görsel başlığın altındaki alana sığdırılır.
+  function renderScene(variant, box, { topInset, focusX, label }) {
+    const cover = variant.fit === 'cover';
+    const fitted = createFittedRender(project, variant, {
       width: box.width,
       height: box.height,
-      area: [0, topInset, box.width, box.height - topInset - 8],
-      focusX,
+      area: cover ? [0, 0, box.width, box.height] : [0, topInset, box.width, box.height - topInset - 8],
+      fit: variant.fit,
+      focus: cover ? variant.focus ?? [0.5, 0.5] : [focusX, 0.5],
       label,
     });
-    const hotspots = calibratedFloors(render.floors, project.tower.floors).map((floor) => ({
+    const hotspots = calibratedFloors(variant.floors, project.tower.floors).map((floor) => ({
       ...floor,
       points: floor.points.map(fitted.toScene),
     }));

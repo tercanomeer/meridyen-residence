@@ -35,7 +35,20 @@
         { "floor": 29, "edge": "top", "left": [0.364, 0.1792], "right": [0.6373, 0.1792] },
         { "floor": 30, "edge": "bottom", "left": [0.364, 0.1792], "right": [0.6373, 0.1792] },
         { "floor": 32, "edge": "top", "left": [0.364, 0.0917], "right": [0.6373, 0.0917] }
-      ]
+      ],
+      "wide": {
+        "src": "renders/tower-wide.webp",
+        "small": "renders/tower-wide-small.webp",
+        "size": [2400, 1340],
+        "focus": [0.5, 0.5],
+        "floors": [
+          { "floor": 1, "edge": "bottom", "left": [0.4483, 0.7679], "right": [0.5521, 0.7679] },
+          { "floor": 2, "edge": "top", "left": [0.4483, 0.7239], "right": [0.5521, 0.7239] },
+          { "floor": 29, "edge": "top", "left": [0.4483, 0.1776], "right": [0.5521, 0.1776] },
+          { "floor": 30, "edge": "bottom", "left": [0.4483, 0.1776], "right": [0.5521, 0.1776] },
+          { "floor": 32, "edge": "top", "left": [0.4483, 0.0888], "right": [0.5521, 0.0888] }
+        ]
+      }
     },
     "amenityFloors": [
       {

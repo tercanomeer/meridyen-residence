@@ -91,6 +91,13 @@
             <label>Proje <input data-project value="meridyen" size="12" /></label>
             <button type="button" data-load>Projeden yükle</button>
           </div>
+          <label
+            >Görsel türü
+            <select data-variant>
+              <option value="portrait">Dikey (tower.render, telefon)</option>
+              <option value="wide">Geniş (tower.render.wide, masaüstü)</option>
+            </select>
+          </label>
           <label>ya da dosya seçin <input type="file" accept="image/*" data-file /></label>
           <label>Görsel yolu (project.json'a yazılacak) <input data-src placeholder="renders/tower.webp" /></label>
           <label>Kat sayısı <input type="number" min="1" value="32" data-floors /></label>
@@ -101,7 +108,7 @@
           <button type="button" data-add>İşaret ekle</button>
         </fieldset>
         <fieldset>
-          <legend>project.json → tower</legend>
+          <legend data-output-title>project.json → tower</legend>
           <textarea readonly data-output></textarea>
           <div class="row"><button type="button" class="primary" data-copy>Kopyala</button><span data-copied></span></div>
         </fieldset>
