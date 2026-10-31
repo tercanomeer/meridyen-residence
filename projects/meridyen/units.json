@@ -1,0 +1,10 @@
+{
+  "units": [
+    { "id": "18-1", "floor": 18, "type": "2+1", "area": 118, "price": 890000, "status": "available" },
+    { "id": "18-2", "floor": 18, "type": "3+1", "area": 165, "price": 1240000, "status": "sold" },
+    { "id": "18-3", "floor": 18, "type": "3+1", "area": 172, "price": 1310000, "status": "available" },
+    { "id": "19-1", "floor": 19, "type": "2+1", "area": 118, "price": 915000, "status": "available" },
+    { "id": "19-2", "floor": 19, "type": "4+1", "area": 228, "price": 1780000, "status": "reserved" },
+    { "id": "19-3", "floor": 19, "type": "3+1", "area": 172, "price": 1345000, "status": "available" }
+  ]
+}

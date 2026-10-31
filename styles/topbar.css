@@ -1,0 +1,51 @@
+/* Üst çubuk ve sağ üstteki TR/EN, USD/TL düğmeleri. */
+
+.topbar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  padding: max(12px, env(safe-area-inset-top)) var(--gutter) 12px;
+  pointer-events: none;
+}
+
+.topbar__controls {
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: rgb(11 22 38 / 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.segmented__option {
+  min-width: 44px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease-calm), color 0.25s var(--ease-calm);
+}
+
+.segmented__option:hover {
+  color: var(--color-text);
+}
+
+.segmented__option[aria-pressed='true'] {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}

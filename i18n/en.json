@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "locale": "en-US"
+  },
+  "language": {
+    "tr": "TR",
+    "en": "EN",
+    "trName": "Türkçe",
+    "enName": "English"
+  },
+  "currency": {
+    "USD": "USD",
+    "TRY": "TL",
+    "USDName": "US dollar",
+    "TRYName": "Turkish lira"
+  },
+  "toggle": {
+    "language": "Language",
+    "currency": "Currency"
+  },
+  "welcome": {
+    "startingFrom": "Starting from"
+  }
+}

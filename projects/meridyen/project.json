@@ -1,0 +1,11 @@
+{
+  "id": "meridyen",
+  "name": { "tr": "Meridyen Rezidans", "en": "Meridyen Residences" },
+  "tagline": { "tr": "Şehrin üstünde, sakin bir hayat.", "en": "A quiet life above the city." },
+  "data": { "source": "json", "units": "units.json" },
+  "leads": { "mode": "demo" },
+  "currency": {
+    "default": "USD",
+    "rates": { "TRY": 42.5 }
+  }
+}

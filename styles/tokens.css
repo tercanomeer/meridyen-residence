@@ -1,0 +1,36 @@
+/* Tasarım belirteçleri: gece mavisi zemin, sıcak altın vurgu, sınırlı palet. */
+
+:root {
+  --night-950: #070f1c;
+  --night-900: #0b1626;
+  --night-800: #12213a;
+  --night-700: #1c2f4d;
+  --beige-100: #f3ece0;
+  --beige-300: #d9cbb2;
+  --wood-500: #9b6b43;
+  --gold-400: #e0c07f;
+  --gold-500: #c9a45c;
+
+  --color-bg: var(--night-900);
+  --color-surface: var(--night-800);
+  --color-line: rgb(217 203 178 / 0.18);
+  --color-text: var(--beige-100);
+  --color-text-muted: rgb(243 236 224 / 0.62);
+  --color-accent: var(--gold-500);
+  --color-accent-strong: var(--gold-400);
+  --color-on-accent: var(--night-950);
+
+  --font-serif: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  --font-sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --gutter: 16px;
+  --radius-pill: 999px;
+  --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-accent-strong);
+  --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 32px;
+  }
+}

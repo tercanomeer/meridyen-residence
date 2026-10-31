@@ -1,0 +1,42 @@
+/* Geçici karşılama ekranı. Kule ekranı gelince kaldırılacak. */
+
+.welcome {
+  display: grid;
+  place-content: center;
+  gap: 16px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 96px var(--gutter) 48px;
+  text-align: center;
+}
+
+.welcome__title {
+  font-size: clamp(2.5rem, 9vw, 5rem);
+  color: var(--color-text);
+}
+
+.welcome__tagline {
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 3.6vw, 1.5rem);
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.welcome__price {
+  margin-top: 16px;
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.welcome__price strong {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--color-accent-strong);
+}
