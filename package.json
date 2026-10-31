@@ -1,0 +1,8 @@
+{
+  "name": "meridyen",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "units": "node tools/generate-units.mjs"
+  }
+}

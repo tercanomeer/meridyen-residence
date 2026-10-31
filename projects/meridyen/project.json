@@ -7,5 +7,312 @@
   "currency": {
     "default": "USD",
     "rates": { "TRY": 42.5 }
+  },
+
+  "geometry": {
+    "unit": "m",
+    "rect": "[x, y, w, h]",
+    "axes": "x → east, y → south; the sea is on the south facade"
+  },
+
+  "facades": {
+    "south": { "view": "sea", "label": { "tr": "Deniz manzarası", "en": "Sea view" } },
+    "north": { "view": "city", "label": { "tr": "Şehir manzarası", "en": "City view" } },
+    "east": { "view": "sunrise", "label": { "tr": "Sabah güneşi", "en": "Morning sun" } },
+    "west": { "view": "sunset", "label": { "tr": "Gün batımı", "en": "Sunset" } }
+  },
+
+  "tower": {
+    "floors": 32,
+    "visual": "svg:tower",
+    "amenityFloors": [
+      {
+        "floor": 1,
+        "label": { "tr": "Lobi", "en": "Lobby" },
+        "features": [
+          { "tr": "7/24 resepsiyon ve concierge", "en": "24/7 reception and concierge" },
+          { "tr": "Çift yükseklikte giriş holü", "en": "Double-height entrance hall" }
+        ]
+      },
+      {
+        "floor": 2,
+        "label": { "tr": "Spor salonu", "en": "Fitness centre" },
+        "features": [
+          { "tr": "Deniz manzaralı spor salonu", "en": "Sea-view gym" },
+          { "tr": "Sauna ve buhar odası", "en": "Sauna and steam room" }
+        ]
+      }
+    ]
+  },
+
+  "floorLayouts": [
+    {
+      "id": "a",
+      "floors": [3, 12],
+      "plate": [28, 18],
+      "core": [10, 5.5, 8, 7],
+      "lobby": [[10, 0, 8, 5.5]],
+      "units": [
+        { "slot": 1, "type": "A1", "at": [0, 0] },
+        { "slot": 2, "type": "A1", "at": [18, 0], "mirror": true },
+        { "slot": 3, "type": "A2", "at": [14, 7.5], "mirror": true },
+        { "slot": 4, "type": "A2", "at": [0, 7.5] }
+      ]
+    },
+    {
+      "id": "b",
+      "floors": [13, 22],
+      "plate": [28, 18],
+      "core": [10, 5.5, 8, 7],
+      "lobby": [[10, 0, 8, 5.5]],
+      "units": [
+        { "slot": 1, "type": "B1", "at": [0, 0] },
+        { "slot": 2, "type": "B1", "at": [18, 0], "mirror": true },
+        { "slot": 3, "type": "B2", "at": [0, 12.5] }
+      ]
+    },
+    {
+      "id": "c",
+      "floors": [23, 29],
+      "plate": [28, 18],
+      "core": [10, 5.5, 8, 7],
+      "lobby": [[10, 0, 8, 5.5]],
+      "units": [
+        { "slot": 1, "type": "C", "at": [0, 0] },
+        { "slot": 2, "type": "D", "at": [10, 0] }
+      ]
+    },
+    {
+      "id": "penthouse",
+      "floors": [30, 32],
+      "plate": [28, 24],
+      "core": [10, 5.5, 8, 7],
+      "lobby": [[10, 0, 8, 5.5]],
+      "units": [
+        { "slot": 1, "type": "PH", "at": [0, 0] },
+        { "slot": 2, "type": "PH", "at": [14, 0], "mirror": true }
+      ]
+    }
+  ],
+
+  "unitTypes": {
+    "A1": {
+      "label": { "tr": "A1 · 1+1", "en": "A1 · 1 bedroom" },
+      "layout": "1+1",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "area": 75,
+      "basePrice": 480000,
+      "plan": "svg:unit-plan",
+      "size": [10, 7.5],
+      "footprint": [[0, 0, 10, 7.5]],
+      "facades": ["north", "west"],
+      "features": [
+        { "tr": "Köşe daire, çift cephe", "en": "Corner residence, dual aspect" },
+        { "tr": "Yerden tavana pencereler", "en": "Floor-to-ceiling windows" },
+        { "tr": "Ankastre mutfak", "en": "Fully fitted kitchen" }
+      ],
+      "rooms": [
+        { "id": "salon", "kind": "living", "label": { "tr": "Salon", "en": "Living room" }, "rect": [0, 0, 6.5, 4.5], "visual": "svg:room-living" },
+        { "id": "mutfak", "kind": "kitchen", "label": { "tr": "Mutfak", "en": "Kitchen" }, "rect": [6.5, 0, 3.5, 3], "visual": "svg:room-kitchen" },
+        { "id": "antre", "kind": "entry", "label": { "tr": "Antre", "en": "Entrance hall" }, "rect": [6.5, 3, 3.5, 2] },
+        { "id": "banyo", "kind": "bath", "label": { "tr": "Banyo", "en": "Bathroom" }, "rect": [6.5, 5, 3.5, 2.5], "visual": "svg:room-bath" },
+        { "id": "yatak-odasi", "kind": "bedroom", "label": { "tr": "Yatak odası", "en": "Bedroom" }, "rect": [0, 4.5, 4.5, 3], "visual": "svg:room-bedroom" },
+        { "id": "giyinme", "kind": "dressing", "label": { "tr": "Giyinme odası", "en": "Walk-in wardrobe" }, "rect": [4.5, 4.5, 2, 3] }
+      ]
+    },
+
+    "A2": {
+      "label": { "tr": "A2 · 2+1", "en": "A2 · 2 bedrooms" },
+      "layout": "2+1",
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "area": 120,
+      "basePrice": 840000,
+      "plan": "svg:unit-plan",
+      "size": [14, 10.5],
+      "footprint": [[0, 0, 10, 10.5], [10, 5, 4, 5.5]],
+      "facades": ["west", "south"],
+      "features": [
+        { "tr": "Deniz cepheli salon", "en": "Sea-facing living room" },
+        { "tr": "Ebeveyn banyolu yatak odası", "en": "Primary bedroom with en-suite" },
+        { "tr": "Ayrı çamaşır odası", "en": "Separate laundry room" }
+      ],
+      "rooms": [
+        { "id": "yatak-2", "kind": "bedroom", "label": { "tr": "Yatak odası 2", "en": "Bedroom 2" }, "rect": [0, 0, 4, 5], "visual": "svg:room-bedroom" },
+        { "id": "banyo", "kind": "bath", "label": { "tr": "Banyo", "en": "Bathroom" }, "rect": [4, 0, 3, 2.5], "visual": "svg:room-bath" },
+        { "id": "camasir", "kind": "utility", "label": { "tr": "Çamaşır odası", "en": "Laundry room" }, "rect": [7, 0, 3, 2.5] },
+        { "id": "mutfak", "kind": "kitchen", "label": { "tr": "Mutfak", "en": "Kitchen" }, "rect": [4, 2.5, 6, 2.5], "visual": "svg:room-kitchen" },
+        { "id": "salon", "kind": "living", "label": { "tr": "Salon", "en": "Living room" }, "rect": [0, 5, 7.5, 5.5], "visual": "svg:room-living" },
+        { "id": "vestiyer", "kind": "storage", "label": { "tr": "Vestiyer", "en": "Cloakroom" }, "rect": [7.5, 5, 2.5, 2] },
+        { "id": "antre", "kind": "entry", "label": { "tr": "Antre", "en": "Entrance hall" }, "rect": [10, 5, 4, 2] },
+        { "id": "ebeveyn", "kind": "bedroom", "label": { "tr": "Ebeveyn yatak odası", "en": "Primary bedroom" }, "rect": [7.5, 7, 4, 3.5], "visual": "svg:room-bedroom" },
+        { "id": "ebeveyn-banyo", "kind": "bath", "label": { "tr": "Ebeveyn banyosu", "en": "En-suite bathroom" }, "rect": [11.5, 7, 2.5, 3.5], "visual": "svg:room-bath" }
+      ]
+    },
+
+    "B1": {
+      "label": { "tr": "B1 · 2+1", "en": "B1 · 2 bedrooms" },
+      "layout": "2+1",
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "area": 125,
+      "basePrice": 900000,
+      "plan": "svg:unit-plan",
+      "size": [10, 12.5],
+      "footprint": [[0, 0, 10, 12.5]],
+      "facades": ["north", "west"],
+      "features": [
+        { "tr": "Köşe salon, çift cephe", "en": "Corner living room, dual aspect" },
+        { "tr": "Ebeveyn banyolu yatak odası", "en": "Primary bedroom with en-suite" },
+        { "tr": "Kiler ve çamaşır odası", "en": "Pantry and laundry room" }
+      ],
+      "rooms": [
+        { "id": "salon", "kind": "living", "label": { "tr": "Salon", "en": "Living room" }, "rect": [0, 0, 6.5, 5.5], "visual": "svg:room-living" },
+        { "id": "mutfak", "kind": "kitchen", "label": { "tr": "Mutfak", "en": "Kitchen" }, "rect": [6.5, 0, 3.5, 3.5], "visual": "svg:room-kitchen" },
+        { "id": "antre", "kind": "entry", "label": { "tr": "Antre", "en": "Entrance hall" }, "rect": [6.5, 3.5, 3.5, 2.5] },
+        { "id": "ebeveyn", "kind": "bedroom", "label": { "tr": "Ebeveyn yatak odası", "en": "Primary bedroom" }, "rect": [0, 5.5, 4.5, 4], "visual": "svg:room-bedroom" },
+        { "id": "ebeveyn-banyo", "kind": "bath", "label": { "tr": "Ebeveyn banyosu", "en": "En-suite bathroom" }, "rect": [4.5, 5.5, 2, 3], "visual": "svg:room-bath" },
+        { "id": "banyo", "kind": "bath", "label": { "tr": "Banyo", "en": "Bathroom" }, "rect": [6.5, 6, 3.5, 3], "visual": "svg:room-bath" },
+        { "id": "hol", "kind": "hall", "label": { "tr": "Hol", "en": "Hallway" }, "rect": [4.5, 8.5, 2, 4] },
+        { "id": "yatak-2", "kind": "bedroom", "label": { "tr": "Yatak odası 2", "en": "Bedroom 2" }, "rect": [0, 9.5, 4.5, 3], "visual": "svg:room-bedroom" },
+        { "id": "kiler", "kind": "utility", "label": { "tr": "Kiler ve çamaşır", "en": "Pantry and laundry" }, "rect": [6.5, 9, 3.5, 3.5] }
+      ]
+    },
+
+    "B2": {
+      "label": { "tr": "B2 · 3+1", "en": "B2 · 3 bedrooms" },
+      "layout": "3+1",
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "area": 175,
+      "basePrice": 1330000,
+      "plan": "svg:unit-plan",
+      "size": [28, 5.5],
+      "footprint": [[0, 0, 28, 5.5]],
+      "facades": ["west", "south", "east"],
+      "features": [
+        { "tr": "28 metre kesintisiz deniz cephesi", "en": "28 metres of uninterrupted sea frontage" },
+        { "tr": "Üç cepheli konum", "en": "Triple aspect" },
+        { "tr": "Ebeveyn banyolu yatak odası", "en": "Primary bedroom with en-suite" }
+      ],
+      "rooms": [
+        { "id": "banyo", "kind": "bath", "label": { "tr": "Banyo", "en": "Bathroom" }, "rect": [0, 0, 3, 2], "visual": "svg:room-bath" },
+        { "id": "hol", "kind": "hall", "label": { "tr": "Hol", "en": "Hallway" }, "rect": [3, 0, 7, 2] },
+        { "id": "antre", "kind": "entry", "label": { "tr": "Antre", "en": "Entrance hall" }, "rect": [10, 0, 4, 2] },
+        { "id": "salon", "kind": "living", "label": { "tr": "Salon", "en": "Living room" }, "rect": [14, 0, 5.5, 5.5], "visual": "svg:room-living" },
+        { "id": "camasir", "kind": "utility", "label": { "tr": "Çamaşır odası", "en": "Laundry room" }, "rect": [19.5, 0, 3.5, 2] },
+        { "id": "ebeveyn-banyo", "kind": "bath", "label": { "tr": "Ebeveyn banyosu", "en": "En-suite bathroom" }, "rect": [23, 0, 5, 2], "visual": "svg:room-bath" },
+        { "id": "yatak-3", "kind": "bedroom", "label": { "tr": "Yatak odası 3", "en": "Bedroom 3" }, "rect": [0, 2, 4.5, 3.5], "visual": "svg:room-bedroom" },
+        { "id": "yatak-2", "kind": "bedroom", "label": { "tr": "Yatak odası 2", "en": "Bedroom 2" }, "rect": [4.5, 2, 4, 3.5], "visual": "svg:room-bedroom" },
+        { "id": "yemek", "kind": "dining", "label": { "tr": "Yemek alanı", "en": "Dining area" }, "rect": [8.5, 2, 5.5, 3.5], "visual": "svg:room-dining" },
+        { "id": "mutfak", "kind": "kitchen", "label": { "tr": "Mutfak", "en": "Kitchen" }, "rect": [19.5, 2, 3.5, 3.5], "visual": "svg:room-kitchen" },
+        { "id": "ebeveyn", "kind": "bedroom", "label": { "tr": "Ebeveyn yatak odası", "en": "Primary bedroom" }, "rect": [23, 2, 5, 3.5], "visual": "svg:room-bedroom" }
+      ]
+    },
+
+    "C": {
+      "label": { "tr": "C · 3+1", "en": "C · 3 bedrooms" },
+      "layout": "3+1",
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "area": 190,
+      "basePrice": 1500000,
+      "plan": "svg:unit-plan",
+      "size": [10, 18],
+      "footprint": [[0, 0, 10, 18]],
+      "facades": ["north", "west", "south"],
+      "features": [
+        { "tr": "Üç cephe: deniz, şehir ve gün batımı", "en": "Triple aspect: sea, city and sunset" },
+        { "tr": "Deniz cepheli ebeveyn süiti", "en": "Sea-facing primary suite" },
+        { "tr": "Giyinme odası", "en": "Walk-in wardrobe" }
+      ],
+      "rooms": [
+        { "id": "yatak-2", "kind": "bedroom", "label": { "tr": "Yatak odası 2", "en": "Bedroom 2" }, "rect": [0, 0, 4.5, 4.5], "visual": "svg:room-bedroom" },
+        { "id": "banyo", "kind": "bath", "label": { "tr": "Banyo", "en": "Bathroom" }, "rect": [4.5, 0, 2.5, 4.5], "visual": "svg:room-bath" },
+        { "id": "yatak-3", "kind": "bedroom", "label": { "tr": "Yatak odası 3", "en": "Bedroom 3" }, "rect": [7, 0, 3, 4.5], "visual": "svg:room-bedroom" },
+        { "id": "camasir", "kind": "utility", "label": { "tr": "Çamaşır odası", "en": "Laundry room" }, "rect": [0, 4.5, 4, 2.5] },
+        { "id": "mutfak", "kind": "kitchen", "label": { "tr": "Mutfak", "en": "Kitchen" }, "rect": [0, 7, 4, 4], "visual": "svg:room-kitchen" },
+        { "id": "hol", "kind": "hall", "label": { "tr": "Hol", "en": "Hallway" }, "rect": [4, 4.5, 2.5, 6.5] },
+        { "id": "antre", "kind": "entry", "label": { "tr": "Antre", "en": "Entrance hall" }, "rect": [6.5, 4.5, 3.5, 3.5] },
+        { "id": "giyinme", "kind": "dressing", "label": { "tr": "Giyinme odası", "en": "Walk-in wardrobe" }, "rect": [6.5, 8, 3.5, 3] },
+        { "id": "salon", "kind": "living", "label": { "tr": "Salon", "en": "Living room" }, "rect": [0, 11, 6, 7], "visual": "svg:room-living" },
+        { "id": "ebeveyn-banyo", "kind": "bath", "label": { "tr": "Ebeveyn banyosu", "en": "En-suite bathroom" }, "rect": [6, 11, 4, 2.5], "visual": "svg:room-bath" },
+        { "id": "ebeveyn", "kind": "bedroom", "label": { "tr": "Ebeveyn yatak odası", "en": "Primary bedroom" }, "rect": [6, 13.5, 4, 4.5], "visual": "svg:room-bedroom" }
+      ]
+    },
+
+    "D": {
+      "label": { "tr": "D · 4+1", "en": "D · 4 bedrooms" },
+      "layout": "4+1",
+      "bedrooms": 4,
+      "bathrooms": 2,
+      "area": 240,
+      "basePrice": 1950000,
+      "plan": "svg:unit-plan",
+      "size": [18, 18],
+      "footprint": [[8, 0, 10, 18], [0, 12.5, 8, 5.5]],
+      "facades": ["north", "east", "south"],
+      "features": [
+        { "tr": "68 m² salon ve yemek alanı", "en": "68 m² living and dining" },
+        { "tr": "Deniz ve sabah güneşi cepheli ebeveyn süiti", "en": "Primary suite facing the sea and morning sun" },
+        { "tr": "Dört yatak odası", "en": "Four bedrooms" }
+      ],
+      "rooms": [
+        { "id": "yatak-2", "kind": "bedroom", "label": { "tr": "Yatak odası 2", "en": "Bedroom 2" }, "rect": [8, 0, 3.5, 5], "visual": "svg:room-bedroom" },
+        { "id": "yatak-3", "kind": "bedroom", "label": { "tr": "Yatak odası 3", "en": "Bedroom 3" }, "rect": [11.5, 0, 3, 5], "visual": "svg:room-bedroom" },
+        { "id": "yatak-4", "kind": "bedroom", "label": { "tr": "Yatak odası 4", "en": "Bedroom 4" }, "rect": [14.5, 0, 3.5, 5], "visual": "svg:room-bedroom" },
+        { "id": "antre", "kind": "entry", "label": { "tr": "Antre", "en": "Entrance hall" }, "rect": [8, 5, 4.5, 3] },
+        { "id": "hol", "kind": "hall", "label": { "tr": "Hol", "en": "Hallway" }, "rect": [12.5, 5, 2, 4] },
+        { "id": "banyo", "kind": "bath", "label": { "tr": "Banyo", "en": "Bathroom" }, "rect": [14.5, 5, 3.5, 4], "visual": "svg:room-bath" },
+        { "id": "mutfak", "kind": "kitchen", "label": { "tr": "Mutfak", "en": "Kitchen" }, "rect": [8, 8, 4.5, 4.5], "visual": "svg:room-kitchen" },
+        { "id": "giyinme", "kind": "dressing", "label": { "tr": "Giyinme odası", "en": "Walk-in wardrobe" }, "rect": [12.5, 9, 2, 3.5] },
+        { "id": "ebeveyn-banyo", "kind": "bath", "label": { "tr": "Ebeveyn banyosu", "en": "En-suite bathroom" }, "rect": [14.5, 9, 3.5, 3.5], "visual": "svg:room-bath" },
+        { "id": "salon", "kind": "living", "label": { "tr": "Salon ve yemek", "en": "Living and dining" }, "rect": [0, 12.5, 12.5, 5.5], "visual": "svg:room-living" },
+        { "id": "ebeveyn", "kind": "bedroom", "label": { "tr": "Ebeveyn yatak odası", "en": "Primary bedroom" }, "rect": [12.5, 12.5, 5.5, 5.5], "visual": "svg:room-bedroom" }
+      ]
+    },
+
+    "PH": {
+      "label": { "tr": "Penthouse · 4+1", "en": "Penthouse · 4 bedrooms" },
+      "layout": "4+1",
+      "bedrooms": 4,
+      "bathrooms": 2,
+      "area": 320,
+      "basePrice": 3400000,
+      "plan": "svg:unit-plan",
+      "size": [14, 24],
+      "footprint": [[0, 0, 10, 18], [10, 12.5, 4, 5.5], [0, 18, 14, 6]],
+      "facades": ["north", "west", "south"],
+      "features": [
+        { "tr": "84 m² deniz terası", "en": "84 m² sea terrace" },
+        { "tr": "Katta yalnızca iki daire", "en": "Only two residences per floor" },
+        { "tr": "Üç cephe: deniz, şehir ve gün batımı", "en": "Triple aspect: sea, city and sunset" }
+      ],
+      "rooms": [
+        { "id": "yatak-2", "kind": "bedroom", "label": { "tr": "Yatak odası 2", "en": "Bedroom 2" }, "rect": [0, 0, 4, 4.5], "visual": "svg:room-bedroom" },
+        { "id": "banyo", "kind": "bath", "label": { "tr": "Banyo", "en": "Bathroom" }, "rect": [4, 0, 2.5, 4.5], "visual": "svg:room-bath" },
+        { "id": "yatak-3", "kind": "bedroom", "label": { "tr": "Yatak odası 3", "en": "Bedroom 3" }, "rect": [6.5, 0, 3.5, 4.5], "visual": "svg:room-bedroom" },
+        { "id": "yatak-4", "kind": "bedroom", "label": { "tr": "Yatak odası 4", "en": "Bedroom 4" }, "rect": [0, 4.5, 4, 4], "visual": "svg:room-bedroom" },
+        { "id": "mutfak", "kind": "kitchen", "label": { "tr": "Mutfak", "en": "Kitchen" }, "rect": [0, 8.5, 4, 4], "visual": "svg:room-kitchen" },
+        { "id": "hol", "kind": "hall", "label": { "tr": "Hol", "en": "Hallway" }, "rect": [4, 4.5, 2.5, 8] },
+        { "id": "antre", "kind": "entry", "label": { "tr": "Antre", "en": "Entrance hall" }, "rect": [6.5, 4.5, 3.5, 3.5] },
+        { "id": "ebeveyn-banyo", "kind": "bath", "label": { "tr": "Ebeveyn banyosu", "en": "En-suite bathroom" }, "rect": [6.5, 8, 3.5, 4.5], "visual": "svg:room-bath" },
+        { "id": "salon", "kind": "living", "label": { "tr": "Salon", "en": "Living room" }, "rect": [0, 12.5, 8, 5.5], "visual": "svg:room-living" },
+        { "id": "ebeveyn", "kind": "bedroom", "label": { "tr": "Ebeveyn yatak odası", "en": "Primary bedroom" }, "rect": [8, 12.5, 6, 5.5], "visual": "svg:room-bedroom" },
+        { "id": "teras", "kind": "terrace", "label": { "tr": "Teras", "en": "Terrace" }, "rect": [0, 18, 14, 6], "visual": "svg:room-terrace" }
+      ]
+    }
+  },
+
+  "pricing": {
+    "floorStep": 0.012,
+    "facadePremium": { "south": 0.18, "west": 0.04, "east": 0.03, "north": 0 },
+    "roundTo": 5000
+  },
+
+  "demo": {
+    "seed": "meridyen",
+    "statusMix": { "available": 0.6, "reserved": 0.2, "sold": 0.2 }
   }
 }
