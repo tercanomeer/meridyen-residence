@@ -11,6 +11,7 @@ import { slowZoom, crossfade } from '../motion.js';
 import { wantsRender } from '../visual-mode.js';
 import { loadRender, createRenderImage } from '../ui/render-image.js';
 import { createRenderControls } from '../ui/render-controls.js';
+import { resolveRender } from '../model/renders.js';
 import { applyBindings } from '../ui/bindings.js';
 
 const WINDOW_PRIORITY = ['south', 'west', 'east', 'north'];
@@ -23,7 +24,10 @@ export function renderRoom(container, { project, units, floor, unitId }) {
   const located = unit && locateUnit(project, unit);
   const allRooms = located ? placedRooms(located.type, located.placement) : [];
   const rank = (room) => KIND_ORDER.indexOf(room.kind) * 2 + (room.id.startsWith('ebeveyn') ? 0 : 1);
-  const rooms = allRooms.filter((room) => room.visual).sort((a, b) => rank(a) - rank(b));
+  const rooms = allRooms
+    .filter((room) => room.visual)
+    .map((room) => ({ ...room, render: resolveRender(project, room.render) }))
+    .sort((a, b) => rank(a) - rank(b));
   if (!located || !rooms.some((room) => room.id === getState().room)) {
     queueMicrotask(() => navigate(located ? { floor, unit: unitId } : { floor }, { replace: true }));
     return () => {};
@@ -108,7 +112,7 @@ export function renderRoom(container, { project, units, floor, unitId }) {
       if (request !== renderRequest || getState().room !== room.id || !wantsRender(room.render)) return;
       const image = createRenderImage(project, room.render, {
         label: t('room.sceneLabel', { room: localize(room.label) }),
-        mirror: Boolean(placement.mirror),
+        mirror: Boolean(placement.mirror) !== Boolean(room.render.mirror),
       });
       mount(room.id, 'render', image.element, [box.width / 2, box.height / 2], withFade);
     };

@@ -324,11 +324,168 @@ Replace the sea view with a calm low-rise city view.
 
 ---
 
-## Ben ne yapacağım (görseller gelirken)
+## İkinci set: paylaşımlı oda görselleri
 
-- **Render alanı:** odalara ve kuleye `"render"` alanı eklenecek, mevcut `"visual": "svg:…"` yedek olarak kalacak.
-- **Çizim / Render düğmesi:** üst çubukta yer alacak, durumu `state.js`'de tutulacak.
-- **"Temsilidir" etiketi:** iki dilli olacak.
-- **Kalibrasyon aracı:** kule render'ı üzerindeki kat tıklama alanları için `tools/calibrate.html`.
-- **Aynalı daireler:** görsel yatay çevrilerek gösterilecek.
-- **Yer tutucu test:** görseller gelmeden kodu geçici görsellerle 375 ve 1440 px'te, TR ve EN'de test edeceğim.
+Bu 13 görselle içine girilebilen bütün odalar render'a kavuşur. Her görsel, aynı yöne bakan ve benzer büyüklükteki birden fazla odada kullanılır. Doğu ve batıya bakan odalar aynı görseli kullanabilir; site gerektiğinde görseli yatay çevirir. Bu yüzden yazı ve logo yasağı burada da geçerli.
+
+**Kullanım:**
+- **Referans:** her görselde seçtiğin `a2-salon` görselini referans olarak ekle. Tek istisna 13 numara, onda `ph-salon` kullanılır.
+- **Mesajın sırası:** referans cümlesi, ortak stil bloğu, aşağıdaki prompt, kaçınılacaklar listesi.
+- **Format:** her prompt'un sonuna "Horizontal 16:9 format, high resolution." ekle.
+- **Dosya adı:** tablodaki adı kullan. PNG ya da JPG olabilir, örneğin `mutfak-kuzey.jpg`.
+
+| # | Dosya | Kullanılacağı odalar |
+|---|---|---|
+| 1 | `salon-kuzey-bati` | A1 ve B1 salon |
+| 2 | `salon-buyuk` | D salon ve yemek |
+| 3 | `yemek-deniz` | B2 yemek alanı |
+| 4 | `mutfak-kuzey` | A1 ve B1 mutfak |
+| 5 | `mutfak-bati` | C ve PH mutfak |
+| 6 | `mutfak-guney` | B2 mutfak |
+| 7 | `banyo-penceresiz` | A1, A2, B1 banyolar; C ve PH ebeveyn banyosu |
+| 8 | `banyo-kuzey` | C ve PH banyo |
+| 9 | `banyo-dogu` | D banyo ve ebeveyn banyosu; B2 banyo ve ebeveyn banyosu |
+| 10 | `yatak-bati` | A1 yatak odası; B1 ebeveyn ve yatak odası 2; PH yatak odası 4 |
+| 11 | `yatak-kuzey` | C yatak odası 3; D yatak odası 2 ve 3; PH yatak odası 3 |
+| 12 | `ebeveyn-kose` | D, B2 ebeveyn; B2 yatak odası 3 |
+| 13 | `ph-ebeveyn` | PH ebeveyn yatak odası |
+
+---
+
+### 1 · Salon, şehir ve kıyı: `salon-kuzey-bati`
+
+- **Ölçü:** yaklaşık 4,5–5,5 m genişlik, 6,5 m derinlik.
+- **Pencere:** karşı duvar camdan, kıyı şeridine bakıyor. Sağ duvar da camdan, şehre bakıyor. Sol duvar dolu.
+
+```text
+Interior of a corner living room, about 5 m wide and 6.5 m deep, 2.9 m ceiling. Camera at eye height 1.5 m at the back of the room looking straight at the far wall, one-point perspective. The far wall is floor-to-ceiling glass showing a coastline curving away into the distance with the sea on the left of the view. The right-hand wall is also glazed, showing a calm low-rise city. The left-hand wall is solid matte plaster with a low built-in light oak media cabinet. Sand boucle sofa facing the far window, midnight blue lounge chair, round travertine coffee table, wool rug, brass floor lamp. Late morning soft daylight from the right. Sparse styling.
+```
+
+**Hazır düzeltme:** `Make the left-hand wall solid plaster with no window.`
+
+### 2 · Büyük salon ve yemek alanı: `salon-buyuk`
+
+- **Ölçü:** 12,5 m genişlik, 5,5 m derinlik. Geniş ve sığ bir oda; projenin en büyük salonu.
+- **Pencere:** yalnızca karşı duvarda, deniz.
+
+```text
+Interior of a very wide open-plan living and dining room, about 12.5 m wide and 5.5 m deep, 2.9 m ceiling. Camera at eye height 1.5 m at the back of the room looking straight at the far wall, one-point perspective, the room filling the frame from side to side. The entire far wall is floor-to-ceiling glass with slim frames and the open calm sea beyond. Left half: low sand boucle sofa, two midnight blue lounge chairs, travertine coffee table, large wool rug. Right half: light oak dining table for eight with upholstered chairs under a long linear brass pendant. Side walls solid matte plaster. Late morning soft daylight, spacious and calm.
+```
+
+**Hazır düzeltme:** `Make the room wider and shallower, so the living area and the dining table sit side by side.`
+
+### 3 · Yemek alanı, deniz: `yemek-deniz`
+
+- **Ölçü:** 5,5 m genişlik, 3,5 m derinlik.
+- **Pencere:** karşı duvar cam, deniz.
+- **Komşu alan:** sağ taraf salona açık.
+
+```text
+Interior of a dining area, about 5.5 m wide and 3.5 m deep, 2.9 m ceiling, open to a living room on the right. Camera at eye height 1.5 m looking straight at the far wall, one-point perspective. The far wall is floor-to-ceiling glass with the calm sea beyond. A light oak dining table for six with linen-upholstered chairs, a sculptural brass pendant above, a ceramic bowl on the table. Left-hand wall solid plaster with a slim oak sideboard. Soft daylight.
+```
+
+### 4 · Mutfak, kuzey penceresi: `mutfak-kuzey`
+
+- **Ölçü:** yaklaşık 3,5 m × 3–3,5 m. Küçük ve kapalı bir mutfak.
+- **Pencere:** karşı duvarda, şehir.
+
+```text
+Interior of a compact kitchen, about 3.5 m wide and 3.5 m deep, 2.9 m ceiling. Camera at eye height 1.5 m in the doorway looking straight at the far wall, one-point perspective. The far wall has a wide window above the worktop with a calm low-rise city view. L-shaped kitchen: flat-front cabinetry in midnight blue matte lacquer, honed travertine worktop and backsplash, integrated appliances, brushed brass tap and handles, light oak open shelf. Soft indirect daylight.
+```
+
+**Hazır düzeltme:** `Show a city view through the window, not the sea.`
+
+### 5 · Mutfak, batı penceresi: `mutfak-bati`
+
+- **Ölçü:** 4 m × 4 m.
+- **Pencere:** karşı duvarda, kıyı şeridi.
+
+```text
+Interior of a square kitchen, about 4 m wide and 4 m deep, 2.9 m ceiling. Camera at eye height 1.5 m in the doorway looking straight at the far wall, one-point perspective. The far wall is a large window with a view of a coastline and the sea in the distance. Light oak kitchen island with a honed travertine top in the middle, two brass-legged stools. Cabinetry along both side walls in midnight blue matte lacquer, integrated appliances, brushed brass handles. Soft afternoon daylight.
+```
+
+### 6 · Mutfak, güney penceresi: `mutfak-guney`
+
+- **Ölçü:** 3,5 m × 3,5 m.
+- **Pencere:** karşı duvarda, deniz.
+
+```text
+Interior of a compact kitchen, about 3.5 m wide and 3.5 m deep, 2.9 m ceiling. Camera at eye height 1.5 m in the doorway looking straight at the far wall, one-point perspective. The far wall is a large window directly above the worktop and sink, framing the open sea and horizon. U-shaped kitchen in midnight blue matte lacquer with a honed travertine worktop, integrated appliances, brushed brass tap. A ceramic jug and a small olive branch on the worktop. Bright soft daylight.
+```
+
+### 7 · Penceresiz banyo: `banyo-penceresiz`
+
+- **Ölçü:** yaklaşık 3 m × 2,5 m.
+- **Pencere:** yok. Işık gizli aydınlatmadan gelir.
+
+```text
+Interior of a windowless bathroom, about 3 m wide and 2.5 m deep, 2.7 m ceiling. Camera at eye height 1.5 m in the doorway looking straight at the far wall, one-point perspective. Far wall: a floating light oak vanity with a stone basin, a large mirror with soft hidden backlight, brushed brass wall tap. Right-hand side: walk-in shower behind a clear glass panel with a brass rain shower and a lit niche. Walls and floor in warm honed travertine. No windows; warm, even, hidden cove lighting. Folded linen towel on a small oak stool.
+```
+
+**Hazır düzeltme:** `Remove the window; this bathroom has no window, light comes from hidden cove lighting.`
+
+### 8 · Banyo, kuzey penceresi: `banyo-kuzey`
+
+- **Ölçü:** 2,5 m genişlik, 4,5 m derinlik. Dar ve uzun.
+- **Pencere:** karşı duvarda, şehir.
+
+```text
+Interior of a long narrow bathroom, about 2.5 m wide and 4.5 m deep, 2.9 m ceiling. Camera at eye height 1.5 m in the doorway looking straight down the room at the far wall, one-point perspective. Far wall: a tall window with a calm city view. In front of it, a walk-in shower with a clear glass screen and brass rain shower. Left-hand wall: long floating light oak vanity with two stone basins and a wide mirror. Walls and floor in warm honed travertine. Soft daylight.
+```
+
+**Hazır düzeltme:** `Show a city view through the window, not the sea.`
+
+### 9 · Banyo, doğu penceresi: `banyo-dogu`
+
+- **Ölçü:** yaklaşık 3,5 m × 3,5–4 m.
+- **Pencere:** karşı duvarda, kıyı şeridi.
+- **Çevirme:** batıya bakan banyoda site bu görseli yatay çevirerek kullanacak.
+
+```text
+Interior of a spacious bathroom, about 3.5 m wide and 4 m deep, 2.9 m ceiling. Camera at eye height 1.5 m in the doorway looking straight at the far wall, one-point perspective. Far wall: a large window with a view of the coastline and the sea in the distance, morning light. Under the window a freestanding oval stone bathtub with a brass floor-standing tap. Right-hand wall: floating light oak double vanity with stone basins and round mirrors. Left-hand wall: walk-in shower behind clear glass. Warm honed travertine walls and floor. Bright soft morning light.
+```
+
+### 10 · Yatak odası, batı penceresi: `yatak-bati`
+
+- **Ölçü:** yaklaşık 4,5 m × 3–4 m.
+- **Pencere:** karşı duvarda, kıyı şeridi.
+
+```text
+Interior of a calm bedroom, about 4 m wide and 4 m deep, 2.9 m ceiling. Camera at eye height 1.5 m in the doorway looking straight at the far wall, one-point perspective. The far wall is floor-to-ceiling glass with sheer linen curtains, showing a coastline and the sea in the distance. Double bed with an upholstered sand linen headboard against the right-hand wall, bed facing left, beige bedding with a midnight blue throw, light oak bedside table with a small brass lamp. Left-hand wall plain plaster with a slim oak bench. Soft afternoon light.
+```
+
+**Hazır düzeltme:** `Move the bed so its headboard is against the right-hand wall.`
+
+### 11 · Yatak odası, kuzey penceresi: `yatak-kuzey`
+
+- **Ölçü:** yaklaşık 3–3,5 m genişlik, 4,5–5 m derinlik. Dar ve derin.
+- **Pencere:** karşı duvarda, şehir.
+
+```text
+Interior of a narrow, deep bedroom, about 3.3 m wide and 5 m deep, 2.9 m ceiling. Camera at eye height 1.5 m in the doorway looking straight at the far wall, one-point perspective. The far wall is floor-to-ceiling glass with sheer curtains and a calm low-rise city view. Double bed in warm beige linen against the left-hand wall, light oak desk with a brass lamp under the window, a wool rug. Right-hand wall: built-in light oak wardrobe with flush doors. Soft indirect daylight.
+```
+
+**Hazır düzeltme:** `Make the room narrower and deeper, about 3.3 m wide.`
+
+### 12 · Büyük ebeveyn süiti, köşe: `ebeveyn-kose`
+
+- **Ölçü:** yaklaşık 5–5,5 m × 4–5,5 m.
+- **Pencereler:** karşı duvar cam (deniz), sol duvar cam (kıyı).
+
+```text
+Interior of a large corner primary bedroom suite, about 5.5 m wide and 5 m deep, 2.9 m ceiling. Camera at eye height 1.5 m in the doorway looking straight at the far wall, one-point perspective. The far wall is floor-to-ceiling glass with the open sea and horizon. The left-hand wall is also glazed, showing the coastline. King-size bed with a tall upholstered sand headboard against the right-hand wall, bed facing left, linen bedding with a midnight blue throw, upholstered bench at the foot of the bed, a boucle lounge chair by the corner window, brass reading lamp. Soft morning light, spacious and serene.
+```
+
+**Hazır düzeltme:** `Make the left-hand wall glass as well, with a coastline view.`
+
+### 13 · Penthouse ebeveyn süiti, gün batımı: `ph-ebeveyn`
+
+- **Ölçü:** 6 m × 5,5 m, tavan 3,2 m.
+- **Pencere:** karşı duvar cam sürme kapılar; arkasında teras ve deniz. Güneş sağda batıyor.
+- **Referans:** `ph-salon`.
+
+```text
+Interior of a penthouse primary bedroom at sunset, about 6 m wide and 5.5 m deep, high 3.2 m ceiling, top floor of a seaside tower. Camera at eye height 1.5 m in the doorway looking straight at the far wall, one-point perspective. The far wall is full-height sliding glass doors opening onto a stone terrace with a frameless glass balustrade and the open sea far below. Low sun on the right side of the horizon, warm amber light raking across the oak floor. King-size bed with a tall sand linen headboard against the left-hand wall, bed facing right, linen bedding and a midnight blue throw, two boucle lounge chairs facing the view, brass pendant lights by the bed. Luxurious, calm, private.
+```
+
+**Hazır düzeltme:** `Move the low sun to the right side of the horizon.`

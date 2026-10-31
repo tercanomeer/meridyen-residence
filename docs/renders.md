@@ -53,6 +53,25 @@ Odanın tanımına `render` alanını ekleyin. Mevcut `visual` alanı yerinde ka
 | `size` | `src` görselinin piksel boyutu |
 | `focus` | Telefonda kırpılırken görünür kalacak nokta, 0–1 (isteğe bağlı, varsayılan orta) |
 
+### Aynı görseli birden fazla odada kullanmak
+
+Benzer odalar için her seferinde ayrı görsel gerekmez. Görseli bir kez `renders` kütüphanesine yazın, odalardan adıyla başvurun:
+
+```json
+"renders": {
+  "banyo-dogu": { "src": "renders/banyo-dogu.webp", "small": "renders/banyo-dogu-small.webp", "size": [2400, 1340], "focus": [0.5, 0.5] }
+},
+…
+{ "id": "banyo", "kind": "bath", "rect": [14.5, 5, 3.5, 4], "visual": "svg:room-bath", "render": "banyo-dogu" },
+{ "id": "banyo", "kind": "bath", "rect": [0, 0, 3, 2], "visual": "svg:room-bath", "render": { "use": "banyo-dogu", "mirror": true } }
+```
+
+- `"render": "ad"` kütüphanedeki görseli olduğu gibi kullanır.
+- `{ "use": "ad", "mirror": true }` görseli yatay çevirir. Örneğin doğuya bakan banyonun görseli batıya bakan banyoda kullanılır.
+- `{ "use": "ad", "focus": [x, y] }` kütüphanedeki değerleri yalnızca bu oda için değiştirir.
+
+Aynalanmış bir dairede çevirmeler birbirini götürür. `mirror: true` olan bir oda, aynalı dairede görseli asıl hâliyle gösterir.
+
 **Kırpma:** görsel ekranı doldurur. Telefonda yanlardan kırpılır ve 16:9 görselin ortadaki yaklaşık %45'i görünür. Asıl öğeler bu şeritte olmalı; değilse `focus` ile kaydırın.
 
 **Aynalanmış daireler:** kat düzeninde `"mirror": true` olan dairelerde görsel otomatik olarak yatay çevrilir. Bu yüzden görselde yazı ya da logo olmamalı.
