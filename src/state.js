@@ -6,6 +6,7 @@ const state = {
   floor: null,
   unit: null,
   room: null,
+  onlyAvailable: false,
 };
 
 const listeners = new Set();

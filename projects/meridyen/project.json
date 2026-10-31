@@ -312,7 +312,7 @@
   },
 
   "demo": {
-    "seed": "meridyen",
+    "seed": "meridyen-200",
     "statusMix": { "available": 0.6, "reserved": 0.2, "sold": 0.2 }
   }
 }

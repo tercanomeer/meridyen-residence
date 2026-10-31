@@ -1,0 +1,48 @@
+/* Görselin üstündeki tıklama alanları: soluk, vurgulu, odaklı ve devre dışı hâller. */
+
+.hotspots {
+  touch-action: pinch-zoom;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hotspot__hit {
+  fill: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+.hotspot__dim,
+.hotspot__shape {
+  fill: transparent;
+  stroke: transparent;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+  transition: fill 0.25s var(--ease-calm), stroke 0.25s var(--ease-calm);
+}
+
+.hotspot.is-dimmed .hotspot__dim {
+  fill: rgb(6 13 25 / 0.68);
+}
+
+.hotspot.is-active .hotspot__shape {
+  fill: rgb(224 192 127 / 0.22);
+  stroke: var(--gold-400);
+  stroke-width: 1.5;
+}
+
+.hotspot:has(.hotspot__hit:focus-visible) .hotspot__shape {
+  stroke: var(--beige-100);
+  stroke-width: 2.5;
+}
+
+.hotspot.is-disabled .hotspot__hit {
+  cursor: default;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hotspot__dim,
+  .hotspot__shape {
+    transition-duration: 0.01ms;
+  }
+}

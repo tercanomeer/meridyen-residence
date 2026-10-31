@@ -1,6 +1,9 @@
-// "svg:<ad>" görsellerinin üretici kaydı. Üreticiler sonraki fazlarda eklenecek.
+// "svg:<ad>" görsellerinin üretici kaydı.
+// Üretici { element, viewBox: [w, h], hotspots: [{ id, points, outline? }] } döndürür; noktalar 0–1.
 
-const generators = new Map();
+import { towerSvg } from './tower-svg.js';
+
+const generators = new Map([['tower', towerSvg]]);
 
 export function registerVisual(name, generator) {
   generators.set(name, generator);

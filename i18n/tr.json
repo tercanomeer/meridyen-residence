@@ -18,7 +18,17 @@
     "language": "Dil",
     "currency": "Para birimi"
   },
-  "welcome": {
-    "startingFrom": "Başlangıç fiyatı"
+  "tower": {
+    "hint": "Bir kat seçin",
+    "onlyAvailable": "Sadece müsaitler",
+    "floorsLabel": "Katlar",
+    "sceneLabel": "{name}: akşam saatinde deniz kenarında {floors} katlı kule",
+    "floorTitle": "{floor}. Kat",
+    "unitCount": "{count} daire",
+    "availableCount": "{count} müsait",
+    "startingFrom": "Başlangıç",
+    "soldOut": "Tümü satıldı",
+    "noneAvailable": "Müsait daire yok",
+    "explore": "İncele"
   }
 }

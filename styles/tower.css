@@ -1,0 +1,72 @@
+/* Kule ekranı: tam ekran sahne, sol üstte başlık ve filtre. */
+
+.tower {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--night-950);
+}
+
+.tower__stage {
+  position: absolute;
+  inset: 0;
+}
+
+.tower__scene,
+.tower__hotspots {
+  position: absolute;
+  inset: 0;
+}
+
+.tower__scene > svg,
+.tower__scene > img,
+.tower__hotspots > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tower__scene > img {
+  object-fit: contain;
+}
+
+.tower__hud {
+  position: absolute;
+  top: calc(max(12px, env(safe-area-inset-top)) + 52px);
+  left: var(--gutter);
+  z-index: 5;
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.tower__hud > * {
+  pointer-events: auto;
+}
+
+.tower__title {
+  font-size: 1.625rem;
+  color: var(--color-text);
+}
+
+.tower__hint {
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.tower__hud .switch {
+  margin-top: 6px;
+}
+
+@media (min-width: 720px) {
+  .tower__hud {
+    top: max(20px, env(safe-area-inset-top));
+    gap: 8px;
+  }
+
+  .tower__title {
+    font-size: 2.25rem;
+  }
+}

@@ -18,7 +18,17 @@
     "language": "Language",
     "currency": "Currency"
   },
-  "welcome": {
-    "startingFrom": "Starting from"
+  "tower": {
+    "hint": "Select a floor",
+    "onlyAvailable": "Available only",
+    "floorsLabel": "Floors",
+    "sceneLabel": "{name}: a {floors}-storey tower by the sea at dusk",
+    "floorTitle": "Floor {floor}",
+    "unitCount": "{count} residences",
+    "availableCount": "{count} available",
+    "startingFrom": "From",
+    "soldOut": "Sold out",
+    "noneAvailable": "None available",
+    "explore": "Explore"
   }
 }
