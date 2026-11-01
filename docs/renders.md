@@ -114,7 +114,8 @@ Kule görselinde katların nerede durduğunu motor bilemez. Kalibrasyon aracıyl
 
 **Ekrana yerleşim:**
 - **Telefon (dikey ekran):** dikey görsel başlığın altındaki alana sığdırılır.
-- **Masaüstü (yatay ekran):** geniş görsel varsa ekranı tamamen kaplar. Yoksa dikey görselin tamamı gösterilir ve iki yan aynı görselin bulanık hâliyle dolar.
+- **Masaüstü (yatay ekran):** geniş görsel varsa ekranı tamamen kaplar.
+- **Kalan alan:** görselin tamamı sığdırıldığında (telefonda ya da geniş görsel yokken) ekranın geri kalanı görselin kendisinden uzatılır. Yanlarda kenar şeridi aynalanarak devam eder; üstte gökyüzü, altta su uzar. Şeridin genişliği kalibrasyondaki kule köşelerinden hesaplanır, kule hiçbir zaman kopyalanmaz.
 
 ### Masaüstü için geniş görsel (önerilir)
 

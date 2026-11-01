@@ -18,6 +18,14 @@ import { createRenderControls } from '../ui/render-controls.js';
 import { calibratedFloors, towerRenderVariants, pickTowerRender } from '../model/tower-calibration.js';
 
 const NARROW = 720;
+const EDGE_MARGIN = 0.03;
+
+// Görselin kenarlarından kuleye değmeden uzatılabilecek şerit genişlikleri (0–1).
+const towerEdges = (markers) => {
+  const left = Math.min(...markers.map((marker) => marker.left[0]));
+  const right = Math.max(...markers.map((marker) => marker.right[0]));
+  return [Math.max(0, left - EDGE_MARGIN), Math.max(0, 1 - right - EDGE_MARGIN)];
+};
 
 export function renderTower(container, { project, units, focusFloor = null }) {
   const summaries = summarizeFloors(project, units);
@@ -167,6 +175,7 @@ export function renderTower(container, { project, units, focusFloor = null }) {
       area: cover ? [0, 0, box.width, box.height] : [0, topInset, box.width, box.height - topInset - 8],
       fit: variant.fit,
       focus: cover ? variant.focus ?? [0.5, 0.5] : [focusX, 0.5],
+      edges: towerEdges(variant.floors),
       label,
     });
     const hotspots = calibratedFloors(variant.floors, project.tower.floors).map((floor) => ({
