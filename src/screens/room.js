@@ -11,7 +11,7 @@ import { slowZoom, crossfade } from '../motion.js';
 import { wantsRender } from '../visual-mode.js';
 import { loadRender, createRenderImage } from '../ui/render-image.js';
 import { createRenderControls } from '../ui/render-controls.js';
-import { resolveRender } from '../model/renders.js';
+import { resolveRender, renderForBox } from '../model/renders.js';
 import { applyBindings } from '../ui/bindings.js';
 
 const WINDOW_PRIORITY = ['south', 'west', 'east', 'north'];
@@ -115,6 +115,7 @@ export function renderRoom(container, { project, units, floor, unitId }) {
         mirror: Boolean(placement.mirror) !== Boolean(room.render.mirror),
       });
       mount(room.id, 'render', image.element, [box.width / 2, box.height / 2], withFade);
+      current.src = room.render.src;
     };
     if (entry.loaded) {
       place(fade);
@@ -140,7 +141,8 @@ export function renderRoom(container, { project, units, floor, unitId }) {
     const box = layoutSize(stage);
     if (!room || !box.width || !box.height) return;
     controls.setAvailable(Boolean(room.render?.src));
-    if (wantsRender(room.render)) showRender(room, box, fade);
+    const shaped = { ...room, render: renderForBox(room.render, box) };
+    if (wantsRender(shaped.render)) showRender(shaped, box, fade);
     else {
       renderRequest += 1;
       showDrawing(room, box, fade);
@@ -211,9 +213,12 @@ export function renderRoom(container, { project, units, floor, unitId }) {
   renderTexts();
   applyBindings(root);
   showRoom(getState().room, { fade: false });
-  // Render CSS ile kutuyu kaplar; yalnızca çizim yeni boyuta göre yeniden kurulur.
+  // Render CSS ile kaplanır; yalnızca çizimde ya da ekran yönü değişip render'ın diğer sürümü gerektiğinde yeniden kurulur.
   const stopObserving = observeSize(stage, () => {
-    if (current?.kind === 'drawing') showRoom(current.roomId, { fade: false });
+    if (!current) return;
+    const room = rooms.find((entry) => entry.id === current.roomId);
+    const nextSrc = renderForBox(room?.render, layoutSize(stage))?.src;
+    if (current.kind === 'drawing' || current.src !== nextSrc) showRoom(current.roomId, { fade: false });
   });
 
   return () => {

@@ -72,6 +72,17 @@ Benzer odalar için her seferinde ayrı görsel gerekmez. Görseli bir kez `rend
 
 Aynalanmış bir dairede çevirmeler birbirini götürür. `mirror: true` olan bir oda, aynalı dairede görseli asıl hâliyle gösterir.
 
+### Telefon için dikey sürüm
+
+16:9 bir görsel dikey telefon ekranını kaplarken yalnızca ortadaki yaklaşık %30'u görünür. Bunun için her kütüphane görseline dikey (9:16) bir sürüm eklenebilir. Ekran dikeyse (telefon, dikey tablet) motor bu sürümü, yataysa asıl görseli kullanır; çevirme ayarları ikisinde de geçerlidir.
+
+```json
+"a2-salon": { "src": "renders/a2-salon.webp", "small": "renders/a2-salon-small.webp", "size": [2400, 1340],
+  "portrait": { "src": "renders/a2-salon-dikey.webp", "small": "renders/a2-salon-dikey-small.webp", "size": [1340, 2400] } }
+```
+
+**Kompozisyon:** dikey sürümde tavan ekranın üstündeki düğmelerin, zemin de alttaki başlık ve sekmelerin arkasına düşer. Bu yüzden oda (pencere ve mobilyalar) görselin dikeyde yaklaşık %30–60 arasında kalmalı. Mevcut yatay görseli yapay zekâya verip aynı odayı dikey formatta yeniden kurmasını istemek bu sonucu verir. Dosyayı `<ad>-dikey.png` adıyla `renders/` klasörüne koyup çevirme betiğini çalıştırın.
+
 **Kırpma:** görsel ekranı doldurur. Telefonda yanlardan kırpılır ve 16:9 görselin ortadaki yaklaşık %45'i görünür. Asıl öğeler bu şeritte olmalı; değilse `focus` ile kaydırın.
 
 **Aynalanmış daireler:** kat düzeninde `"mirror": true` olan dairelerde görsel otomatik olarak yatay çevrilir. Bu yüzden görselde yazı ya da logo olmamalı.
